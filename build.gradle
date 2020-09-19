@@ -1,0 +1,188 @@
+/*
+ * Copyright 2020 Robin Mercier
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * This script has major inspiration from DV8FromTheWorld's project JDA.
+ * https://github.com/DV8FromTheWorld/JDA/blob/master/build.gradle.kts
+ */
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id ('com.jfrog.bintray') version '1.8.5'
+    id ('com.github.johnrengelman.shadow') version '5.2.0'
+    id ('io.freefair.lombok') version '4.1.6'
+}
+
+def versionObj = new Version(1, 0, 'beta')
+def github = 'https://github.com/Azzerial/Jmgur'
+
+project.group = 'net.azzerial'
+project.version = versionObj.toString()
+project.archivesBaseName = rootProject.name
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    /* --- API --- */
+
+    api ('com.squareup.okhttp3:okhttp:4.8.1')
+    api ('org.jetbrains:annotations:16.0.1')
+    api ('org.slf4j:slf4j-api:1.7.3')
+
+    /* --- Internal --- */
+
+    implementation ('com.fasterxml.jackson.core:jackson-annotations:2.11.2')
+    implementation ('com.fasterxml.jackson.core:jackson-databind:2.11.2')
+    implementation ('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.3')
+}
+
+shadowJar.archiveClassifier.set('withDependencies')
+
+def sourcesForRelease = task sourcesForRelease(type: Copy) {
+    from('src/main/java') {
+        include('**/JmgurInfo.java')
+        filter(ReplaceTokens, tokens: [
+            name: project.archivesBaseName,
+            version: project.version,
+            github: github
+        ])
+    }
+    into('build/filteredSrc')
+    includeEmptyDirs = false
+}
+
+def generateJavaSources = task generateJavaSources(type: SourceTask) {
+    def javaSources = sourceSets.main.allJava.filter {
+        it.name != 'JmgurInfo.java'
+    }.asFileTree
+    source = javaSources + fileTree(sourcesForRelease.destinationDir)
+    dependsOn(sourcesForRelease)
+}
+
+def sourcesJar = task sourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from('src/main/java') {
+        exclude('**/JmgurInfo.java')
+    }
+    from(sourcesForRelease.destinationDir)
+    dependsOn(sourcesForRelease)
+}
+
+compileJava {
+    source = generateJavaSources.source
+    dependsOn(generateJavaSources)
+}
+
+jar {
+    manifest.attributes(
+        'Implementation-Version': project.version,
+        'Automatic-Module-Name': 'net.azzerial.jmgur'
+    )
+}
+
+build {
+    dependsOn(jar)
+    dependsOn(sourcesJar)
+    dependsOn(shadowJar)
+
+    jar.mustRunAfter(clean)
+    sourcesJar.mustRunAfter(jar)
+    shadowJar.mustRunAfter(sourcesJar)
+}
+
+test {
+    useJUnitPlatform()
+    failFast = true
+}
+
+bintrayUpload {
+    dependsOn(clean)
+    dependsOn(this.build)
+    this.build.mustRunAfter(clean)
+
+    onlyIf({ !getProjectProperty("bintrayUsername").isEmpty() })
+    onlyIf({ !getProjectProperty("bintrayApiKey").isEmpty() })
+}
+
+publishing {
+    publications {
+        register('BintrayRelease', MavenPublication) {
+            from(components.java)
+
+            groupId = project.group
+            artifactId = project.archivesBaseName
+            version = project.version
+
+            artifact(sourcesJar)
+        }
+    }
+}
+
+bintray {
+    user = getProjectProperty('bintrayUsername')
+    key = getProjectProperty('bintrayApiKey')
+    publications = ['BintrayRelease']
+
+    pkg {
+        repo = 'maven'
+        name = archivesBaseName
+        //desc = 'Java\'s Imgur API wrapper'
+        vcsUrl = github + '.git'
+        //githubRepo = github
+        licenses = ['Apache-2.0']
+        //labels = ['Imgur']
+        publish = true
+
+        pkg.version {
+            name = project.version
+            released = new Date()
+        }
+    }
+}
+
+String getProjectProperty(String propertyName) {
+    return project.properties.getOrDefault(propertyName, "")
+}
+
+class Version {
+
+    public String major
+    public String minor
+    public String patch
+
+    Version(Object major, Object minor, Object patch) {
+        this.major = major.toString()
+        this.minor = minor.toString()
+        this.patch = patch == null ? null : patch.toString()
+    }
+
+    @Override
+    String toString() {
+        if (patch == null)
+            return String.format('%s.%s', major.toLowerCase(), minor.toLowerCase())
+        return String.format('%s.%s%s%s', major.toLowerCase(), minor.toLowerCase(), patch.isNumber() ? '.' : '.0-', patch.toLowerCase())
+    }
+}

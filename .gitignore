@@ -1,0 +1,15 @@
+# Gradle
+/.gradle/
+/build/
+/out/
+gradle.properties
+
+# Intellij IDEA
+/.idea/
+*.iml
+*.ipr
+*.iws
+
+# Dependencies & Misc
+lombok.config
+note.txt
