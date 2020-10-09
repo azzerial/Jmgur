@@ -29,7 +29,7 @@ plugins {
     id ('io.freefair.lombok') version '4.1.6'
 }
 
-def versionObj = new Version(1, 0, 'beta')
+def versionObj = new Version(1, 0, 1, 'beta')
 def github = 'https://github.com/Azzerial/Jmgur'
 
 project.group = 'net.azzerial'
@@ -166,17 +166,29 @@ class Version {
     public String major
     public String minor
     public String patch
+    public String tag
 
-    Version(Object major, Object minor, Object patch) {
+    Version(Object major, Object minor) {
+        this(major, minor, null)
+    }
+
+    Version(Object major, Object minor, Object tag) {
+        this(major, minor, null, tag)
+    }
+
+    Version(Object major, Object minor, Object patch, Object tag) {
         this.major = major.toString()
         this.minor = minor.toString()
         this.patch = patch == null ? null : patch.toString()
+        this.tag = tag == null ? null : tag.toString()
     }
 
     @Override
     String toString() {
-        if (patch == null)
+        if (patch == null && tag == null)
             return String.format('%s.%s', major.toLowerCase(), minor.toLowerCase())
-        return String.format('%s.%s%s%s', major.toLowerCase(), minor.toLowerCase(), patch.isNumber() ? '.' : '.0-', patch.toLowerCase())
+        if (patch == null)
+            return String.format('%s.%s-%s', major.toLowerCase(), minor.toLowerCase(), tag.toLowerCase())
+        return String.format('%s.%s.%s-%s', major.toLowerCase(), minor.toLowerCase(), patch.toLowerCase(), tag.toLowerCase())
     }
 }
