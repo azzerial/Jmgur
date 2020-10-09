@@ -49,19 +49,16 @@ dependencies {
     /* --- API --- */
 
     api ('com.squareup.okhttp3:okhttp:4.8.1')
+    api ('com.fasterxml.jackson.core:jackson-annotations:2.11.2')
+    api ('com.fasterxml.jackson.core:jackson-databind:2.11.2')
+    api ('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.3')
     api ('org.jetbrains:annotations:16.0.1')
     api ('org.slf4j:slf4j-api:1.7.3')
-
-    /* --- Internal --- */
-
-    implementation ('com.fasterxml.jackson.core:jackson-annotations:2.11.2')
-    implementation ('com.fasterxml.jackson.core:jackson-databind:2.11.2')
-    implementation ('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.3')
 }
 
 shadowJar.archiveClassifier.set('withDependencies')
 
-def sourcesForRelease = task sourcesForRelease(type: Copy) {
+task sourcesForRelease(type: Copy) {
     from('src/main/java') {
         include('**/JmgurInfo.java')
         filter(ReplaceTokens, tokens: [
@@ -74,7 +71,7 @@ def sourcesForRelease = task sourcesForRelease(type: Copy) {
     includeEmptyDirs = false
 }
 
-def generateJavaSources = task generateJavaSources(type: SourceTask) {
+task generateJavaSources(type: SourceTask) {
     def javaSources = sourceSets.main.allJava.filter {
         it.name != 'JmgurInfo.java'
     }.asFileTree
@@ -82,7 +79,7 @@ def generateJavaSources = task generateJavaSources(type: SourceTask) {
     dependsOn(sourcesForRelease)
 }
 
-def sourcesJar = task sourcesJar(type: Jar) {
+task sourcesJar(type: Jar) {
     archiveClassifier.set('sources')
     from('src/main/java') {
         exclude('**/JmgurInfo.java')
@@ -129,7 +126,7 @@ bintrayUpload {
 
 publishing {
     publications {
-        register('BintrayRelease', MavenPublication) {
+        BintrayRelease(MavenPublication) {
             from(components.java)
 
             groupId = project.group
@@ -149,11 +146,10 @@ bintray {
     pkg {
         repo = 'maven'
         name = archivesBaseName
-        //desc = 'Java\'s Imgur API wrapper'
+        desc = 'Java\'s Imgur API wrapper'
         vcsUrl = github + '.git'
-        //githubRepo = github
         licenses = ['Apache-2.0']
-        //labels = ['Imgur']
+        labels = ['Imgur']
         publish = true
 
         pkg.version {

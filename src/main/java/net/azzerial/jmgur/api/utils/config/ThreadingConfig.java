@@ -33,18 +33,22 @@ import java.util.function.Supplier;
 
 public final class ThreadingConfig {
 
+    private final Supplier<String> identifier;
+
     private ExecutorService callbackPool;
-    private ScheduledExecutorService requesterPool;
+    private ExecutorService requesterPool;
 
     private boolean shutdownCallbackPool;
     private boolean shutdownRequesterPool;
 
     /* Constructors */
 
-    public ThreadingConfig() {
+    public ThreadingConfig(@NotNull Supplier<String> identifier) {
+        this.identifier = identifier;
         this.callbackPool = ForkJoinPool.commonPool();
-        this.shutdownRequesterPool = true;
+        this.requesterPool = defaultRequester();
         this.shutdownCallbackPool = false;
+        this.shutdownRequesterPool = true;
     }
 
     /* Getters & Setters */
@@ -56,7 +60,7 @@ public final class ThreadingConfig {
 
     public void setCallbackPool(@Nullable ExecutorService executor, boolean shutdown) {
         this.callbackPool = executor == null ? ForkJoinPool.commonPool() : executor;
-        this.shutdownCallbackPool = shutdown;
+        this.shutdownCallbackPool = executor != null && shutdown;
     }
 
     public boolean isShutdownCallbackPool() {
@@ -64,13 +68,13 @@ public final class ThreadingConfig {
     }
 
     @NotNull
-    public ScheduledExecutorService getRequesterPool() {
+    public ExecutorService getRequesterPool() {
         return requesterPool;
     }
 
-    public void setRequesterPool(@Nullable ScheduledExecutorService executor, boolean shutdown) {
-        this.requesterPool = executor == null ? newScheduler(5, JmgurInfo::getName, "Requester", false) : executor;
-        this.shutdownRequesterPool = shutdown;
+    public void setRequesterPool(@Nullable ExecutorService executor, boolean shutdown) {
+        this.requesterPool = executor == null ? defaultRequester() : executor;
+        this.shutdownRequesterPool = executor == null || shutdown;
     }
 
     public boolean isShutdownRequesterPool() {
@@ -79,44 +83,27 @@ public final class ThreadingConfig {
 
     /* Methods */
 
-    public void init(@NotNull Supplier<String> identifier) {
-        if (this.requesterPool == null)
-            this.requesterPool = newScheduler(5, identifier, "Requester", false);
+    @NotNull
+    public static ThreadPoolExecutor newExecutor(int coreSize, long keepAliveSeconds, int queueSize, @NotNull Supplier<String> identifier, @NotNull String baseName) {
+        return newExecutor(coreSize, keepAliveSeconds, queueSize, identifier, baseName, true);
     }
 
     @NotNull
-    public static ScheduledThreadPoolExecutor newScheduler(int coreSize, @NotNull Supplier<String> identifier, @NotNull String baseName) {
-        return newScheduler(coreSize, identifier, baseName, true);
-    }
-
-    @NotNull
-    public static ScheduledThreadPoolExecutor newScheduler(int coreSize, @NotNull Supplier<String> identifier, @NotNull String baseName, boolean daemon) {
+    public static ThreadPoolExecutor newExecutor(int coreSize, long keepAliveSeconds, int queueSize, @NotNull Supplier<String> identifier, @NotNull String baseName, boolean daemon) {
         Check.notNull(identifier, "identifier");
         Check.notBlank(identifier.get(), "identifier#get");
         Check.notBlank(baseName, "baseName");
-        return new ScheduledThreadPoolExecutor(coreSize, new CountingThreadFactory(identifier, baseName, daemon));
+        return new ThreadPoolExecutor(coreSize, coreSize * 2, keepAliveSeconds, TimeUnit.SECONDS, new ArrayBlockingQueue<>(queueSize), new CountingThreadFactory(identifier, baseName, daemon));
     }
 
     @NotNull
     public static ThreadingConfig getDefault() {
-        return new ThreadingConfig();
+        return new ThreadingConfig(JmgurInfo::getName);
     }
 
     public void shutdown() {
         if (shutdownCallbackPool)
             callbackPool.shutdown();
-        if (shutdownRequesterPool) {
-            if (requesterPool instanceof ScheduledThreadPoolExecutor) {
-                final ScheduledThreadPoolExecutor executor = (ScheduledThreadPoolExecutor) requesterPool;
-
-                executor.setKeepAliveTime(5L, TimeUnit.SECONDS);
-                executor.allowCoreThreadTimeOut(true);
-            } else
-                requesterPool.shutdown();
-        }
-    }
-
-    public void shutdownRequester() {
         if (shutdownRequesterPool)
             requesterPool.shutdown();
     }
@@ -126,5 +113,12 @@ public final class ThreadingConfig {
             callbackPool.shutdownNow();
         if (shutdownRequesterPool)
             requesterPool.shutdownNow();
+    }
+
+    /* Internal */
+
+    @NotNull
+    private ThreadPoolExecutor defaultRequester() {
+        return newExecutor(5, 15L, 10, identifier, "Requester", false);
     }
 }

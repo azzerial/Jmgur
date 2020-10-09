@@ -119,11 +119,18 @@ public class RestActionImpl<T> implements RestAction<T> {
 
     @Override
     public void queue(@Nullable Consumer<? super T> success, @Nullable Consumer<? super Throwable> failure) {
-        if (success == null)
-            success = defaultSuccess;
-        if (failure == null)
-            failure = defaultFailure;
-        api.getRequester().request(new Request<>(this, success, failure, data, getDeadline(), route));
+        if (api.getThreadingConfig().getRequesterPool().isShutdown())
+            throw new RejectedExecutionException("The Requester has been stopped! No new requests can be requested!");
+        api.getThreadingConfig().getRequesterPool().execute(() ->
+            api.getRequester().request(new Request<>(
+                this,
+                success == null ? defaultSuccess : success,
+                failure == null ? defaultFailure : failure,
+                data,
+                getDeadline(),
+                route)
+            )
+        );
     }
 
     @Nullable

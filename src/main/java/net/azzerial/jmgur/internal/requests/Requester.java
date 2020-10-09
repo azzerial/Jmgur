@@ -39,7 +39,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.InterruptedIOException;
 import java.net.SocketTimeoutException;
-import java.util.concurrent.RejectedExecutionException;
 
 public final class Requester {
 
@@ -83,8 +82,6 @@ public final class Requester {
 
     public <T> void request(@NotNull Request<T> request) {
         Check.notNull(request, "request");
-        if (api.getThreadingConfig().getRequesterPool().isShutdown())
-            throw new RejectedExecutionException("The Requester has been stopped! No new requests can be requested!");
         execute(request);
     }
 

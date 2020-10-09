@@ -35,7 +35,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ScheduledExecutorService;
 
 public final class JmgurBuilder {
 
@@ -49,7 +48,7 @@ public final class JmgurBuilder {
     private EnumSet<ConfigFlag> flags = ConfigFlag.getDefault();
     private ExecutorService callbackPool;
     private boolean shutdownCallbackPool = true;
-    private ScheduledExecutorService requesterPool;
+    private ExecutorService requesterPool;
     private boolean shutdownRequesterPool = true;
 
     /* Static Constructors */
@@ -118,12 +117,12 @@ public final class JmgurBuilder {
     }
 
     @NotNull
-    public JmgurBuilder setRequesterPool(@Nullable ScheduledExecutorService pool) {
+    public JmgurBuilder setRequesterPool(@Nullable ExecutorService pool) {
         return setRequesterPool(pool, pool == null);
     }
 
     @NotNull
-    public JmgurBuilder setRequesterPool(@Nullable ScheduledExecutorService pool, boolean automaticShutdown) {
+    public JmgurBuilder setRequesterPool(@Nullable ExecutorService pool, boolean automaticShutdown) {
         this.requesterPool = pool;
         this.shutdownRequesterPool = automaticShutdown;
         return this;
@@ -149,20 +148,10 @@ public final class JmgurBuilder {
 
         final AuthenticationConfig authenticationConfig = new AuthenticationConfig(clientId, clientSecret, oauth::getAccessToken);
         final SessionConfig sessionConfig = new SessionConfig(httpClient, mapper, oauth, flags);
-        final ThreadingConfig threadingConfig = new ThreadingConfig();
+        final ThreadingConfig threadingConfig = new ThreadingConfig(JmgurInfo::getName);
         threadingConfig.setCallbackPool(callbackPool, shutdownCallbackPool);
         threadingConfig.setRequesterPool(requesterPool, shutdownRequesterPool);
 
-        final Jmgur api = new Jmgur(authenticationConfig, sessionConfig, threadingConfig);
-
-        init(api);
-
-        return api;
-    }
-
-    /* Internal */
-
-    private void init(Jmgur api) {
-        api.getThreadingConfig().init(JmgurInfo::getName);
+        return new Jmgur(authenticationConfig, sessionConfig, threadingConfig);
     }
 }

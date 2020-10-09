@@ -78,4 +78,15 @@ public final class Jmgur {
     public EntityBuilder getEntityBuilder() {
         return entityBuilder;
     }
+
+    /* Methods */
+
+    public synchronized void shutdown() {
+        threadingConfig.shutdown();
+    }
+
+    public synchronized void shutdownNow() {
+        shutdown();
+        threadingConfig.shutdownNow();
+    }
 }
