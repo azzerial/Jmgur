@@ -49,9 +49,7 @@ dependencies {
     /* --- API --- */
 
     api ('com.squareup.okhttp3:okhttp:4.8.1')
-    api ('com.fasterxml.jackson.core:jackson-annotations:2.11.2')
     api ('com.fasterxml.jackson.core:jackson-databind:2.11.2')
-    api ('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.3')
     api ('org.jetbrains:annotations:16.0.1')
     api ('org.slf4j:slf4j-api:1.7.3')
 }

@@ -22,7 +22,6 @@
 package net.azzerial.jmgur.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import net.azzerial.jmgur.internal.utils.Check;
 import net.azzerial.jmgur.internal.utils.IOUtil;
 import net.azzerial.jmgur.api.utils.config.AuthenticationConfig;
@@ -141,7 +140,6 @@ public final class JmgurBuilder {
         ObjectMapper mapper = this.mapper;
         if (mapper == null)
             mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
 
         final AuthenticationConfig authenticationConfig = new AuthenticationConfig(clientId, oauth::getAccessToken);
         final SessionConfig sessionConfig = new SessionConfig(httpClient, mapper, oauth, flags);
