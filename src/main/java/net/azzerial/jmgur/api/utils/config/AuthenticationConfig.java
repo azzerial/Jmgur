@@ -29,18 +29,15 @@ import java.util.function.Supplier;
 public final class AuthenticationConfig {
 
     private final String clientId;
-    private final String clientSecret;
     private final Supplier<String> accessToken;
 
     /* Constructors */
 
-    public AuthenticationConfig(@NotNull String clientId, @NotNull String clientSecret, @NotNull Supplier<String> accessToken) {
+    public AuthenticationConfig(@NotNull String clientId, @NotNull Supplier<String> accessToken) {
         Check.notBlank(clientId, "clientId");
-        Check.notBlank(clientSecret, "clientSecret");
         Check.notNull(accessToken, "accessToken");
         Check.notBlank(accessToken.get(), "accessToken.get()");
         this.clientId = clientId;
-        this.clientSecret = clientSecret;
         this.accessToken = accessToken;
     }
 
@@ -49,11 +46,6 @@ public final class AuthenticationConfig {
     @NotNull
     public String getClientId() {
         return clientId;
-    }
-
-    @NotNull
-    public String getClientSecret() {
-        return clientSecret;
     }
 
     @NotNull

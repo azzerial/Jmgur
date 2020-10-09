@@ -39,7 +39,6 @@ import java.util.concurrent.ExecutorService;
 public final class JmgurBuilder {
 
     private final String clientId;
-    private final String clientSecret;
 
     private OkHttpClient httpClient;
     private OkHttpClient.Builder httpClientBuilder;
@@ -54,17 +53,15 @@ public final class JmgurBuilder {
     /* Static Constructors */
 
     @NotNull
-    public static JmgurBuilder of(@NotNull String clientId, @NotNull String clientSecret) {
-        return new JmgurBuilder(clientId, clientSecret);
+    public static JmgurBuilder of(@NotNull String clientId) {
+        return new JmgurBuilder(clientId);
     }
 
     /* Constructors */
 
-    public JmgurBuilder(@NotNull String clientId, @NotNull String clientSecret) {
+    public JmgurBuilder(@NotNull String clientId) {
         Check.notBlank(clientId, "clientId");
-        Check.notBlank(clientSecret, "clientSecret");
         this.clientId = clientId;
-        this.clientSecret = clientSecret;
     }
 
     /* Getters & Setters */
@@ -146,7 +143,7 @@ public final class JmgurBuilder {
             mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
 
-        final AuthenticationConfig authenticationConfig = new AuthenticationConfig(clientId, clientSecret, oauth::getAccessToken);
+        final AuthenticationConfig authenticationConfig = new AuthenticationConfig(clientId, oauth::getAccessToken);
         final SessionConfig sessionConfig = new SessionConfig(httpClient, mapper, oauth, flags);
         final ThreadingConfig threadingConfig = new ThreadingConfig(JmgurInfo::getName);
         threadingConfig.setCallbackPool(callbackPool, shutdownCallbackPool);
