@@ -28,12 +28,12 @@ import java.util.Map;
 public final class OAuth2 {
 
     private final OffsetDateTime createdAt;
-    private final  String accessToken;
-    private final  String refreshToken;
-    private final  long expiresIn;
-    private final  OffsetDateTime expiresAt;
-    private final  String accountUsername;
-    private final  long accountId;
+    private final String accessToken;
+    private final String refreshToken;
+    private final long expiresIn;
+    private final OffsetDateTime expiresAt;
+    private final String accountUsername;
+    private final long accountId;
 
     /* Static Constructors */
 
