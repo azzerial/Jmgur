@@ -69,7 +69,7 @@ public final class EntityBuilder {
         final AccountImpl account = new AccountImpl(api);
 
         Avatar avatar = createAvatar(
-            obj.getString("avatar_name"),
+            obj.getString("avatar_name", "default/default"),
             obj.getString("avatar")
         );
         Cover cover = createCover(

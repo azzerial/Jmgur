@@ -243,7 +243,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataObject obj = res.getObject().getObject("data");
                 return builder.createAvatar(
-                    obj.getString("avatar_name"),
+                    obj.getString("avatar_name", "default/default"),
                     obj.getString("avatar")
                 );
             }
