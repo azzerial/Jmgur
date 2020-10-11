@@ -121,14 +121,14 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "Opened WebView on: " + oauthUrl);
     }
 }
-\```
+```
 
 </p>
 </details>
 
 Once your Jmgur object is built, you can start requesting data to the Imgur API.
 
-​```java
+```java
 public static void main(String[] args) {
     Jmgur api = JmgurBuilder
         ...
