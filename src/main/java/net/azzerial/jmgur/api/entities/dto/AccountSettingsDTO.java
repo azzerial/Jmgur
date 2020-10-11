@@ -40,6 +40,9 @@ public interface AccountSettingsDTO {
     AccountSettingsDTO setBio(@Nullable String bio);
 
     @NotNull
+    AccountSettingsDTO setAvatar(@NotNull String avatar);
+
+    @NotNull
     AccountSettingsDTO setImagePrivacy(@NotNull ImagePrivacy privacy);
 
     @NotNull

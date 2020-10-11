@@ -59,6 +59,14 @@ public final class AccountSettingsDTOImpl implements AccountSettingsDTO {
 
     @NotNull
     @Override
+    public AccountSettingsDTO setAvatar(@NotNull String avatar) {
+        Check.notBlank(avatar, "avatar");
+        this.map.put("avatar", avatar);
+        return this;
+    }
+
+    @NotNull
+    @Override
     public AccountSettingsDTO setImagePrivacy(@NotNull ImagePrivacy privacy) {
         Check.check(privacy != ImagePrivacy.UNKNOWN, "privacy must not be UNKNOWN");
         this.map.put("public_images", String.valueOf(privacy.getKey()));
