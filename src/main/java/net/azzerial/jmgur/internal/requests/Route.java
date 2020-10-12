@@ -72,7 +72,7 @@ public final class Route {
         public static final Route GET_USER_ALBUM = new Route(GET, BEARER, "3/account/{username}/album/{album_hash}");
         public static final Route GET_USER_ALBUM_IDS = new Route(GET, BEARER, "3/account/{username}/albums/ids/(page)");
         public static final Route GET_USER_ALBUM_COUNT = new Route(GET, BEARER, "3/account/{username}/albums/count");
-        public static final Route DELETE_USER_ALBUM = new Route(DELETE, BEARER, "3/account/{username}/album/{album_hash}");
+        public static final Route DELETE_USER_ALBUM = new Route(DELETE, BEARER, "3/account/{username}/album/{delete_hash}");
 
         /* --- Comments --- */
 
@@ -85,7 +85,7 @@ public final class Route {
         /* --- Images --- */
 
         public static final Route GET_SELF_IMAGES = new Route(GET, BEARER, "3/account/{username}/images/(page)");
-        public static final Route GET_USER_IMAGE = new Route(GET, BEARER, "3/account/{username}/image/{image_id}");
+        public static final Route GET_USER_IMAGE = new Route(GET, BEARER, "3/account/{username}/image/{image_hash}");
         public static final Route GET_USER_IMAGE_IDS = new Route(GET, BEARER, "3/account/{username}/images/ids/(page)");
         public static final Route GET_USER_IMAGE_COUNT = new Route(GET, BEARER, "3/account/{username}/images/count");
         public static final Route DELETE_USER_IMAGE = new Route(DELETE, BEARER, "3/account/{username}/image/{delete_hash}");
