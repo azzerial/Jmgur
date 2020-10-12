@@ -54,6 +54,10 @@ public final class EntityBuilder {
         return new AccountSettingsDTOImpl();
     }
 
+    public static ImageUploadDTOImpl createImageUploadDTO() {
+        return new ImageUploadDTOImpl();
+    }
+
     /* Methods */
 
     public Avatar createAvatar(@NotNull String name, @NotNull String url) {
@@ -306,7 +310,7 @@ public final class EntityBuilder {
         image.setAccountId(obj.getUnsignedLong("account_id", 0L));
         image.setInMostViral(obj.getBoolean("in_most_viral"));
         image.setHasSound(obj.getBoolean("has_sound"));
-        image.setEdited(obj.getUnsignedInt("edited"));
+        image.setEdited(obj.getUnsignedInt("edited", 0));
         image.setInGallery(obj.getBoolean("in_gallery"));
         image.setDeleteHash(obj.getString("deletehash", null));
         image.setName(obj.getString("name", null));

@@ -17,6 +17,7 @@
 package net.azzerial.jmgur.api;
 
 import net.azzerial.jmgur.api.entities.Image;
+import net.azzerial.jmgur.api.entities.dto.ImageUploadDTO;
 import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,4 +30,7 @@ public interface ImageRepository {
 
     @NotNull
     RestAction<Image> getImage(@NotNull String hash);
+
+    @NotNull
+    RestAction<Image> uploadImage(@NotNull ImageUploadDTO image);
 }
