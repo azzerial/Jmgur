@@ -19,11 +19,13 @@ package net.azzerial.jmgur.internal;
 import net.azzerial.jmgur.api.ImageRepository;
 import net.azzerial.jmgur.api.Jmgur;
 import net.azzerial.jmgur.api.entities.Image;
+import net.azzerial.jmgur.api.entities.dto.ImageInformationDTO;
 import net.azzerial.jmgur.api.entities.dto.ImageUploadDTO;
 import net.azzerial.jmgur.api.entities.subentities.FileType;
 import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import net.azzerial.jmgur.api.utils.data.DataObject;
 import net.azzerial.jmgur.internal.entities.EntityBuilder;
+import net.azzerial.jmgur.internal.entities.ImageInformationDTOImpl;
 import net.azzerial.jmgur.internal.entities.ImageUploadDTOImpl;
 import net.azzerial.jmgur.internal.requests.Route;
 import net.azzerial.jmgur.internal.requests.restaction.RestActionImpl;
@@ -108,6 +110,26 @@ public class ImageRepositoryImpl implements ImageRepository {
         return new RestActionImpl<>(
             api,
             Route.ImageEndpoints.DELETE_IMAGE.compile(hash),
+            (req, res) -> {
+                final DataObject obj = res.getObject();
+                return obj.getBoolean("data");
+            }
+        );
+    }
+
+    @NotNull
+    @Override
+    public RestAction<Boolean> updateImageInformation(@NotNull String hash, @NotNull ImageInformationDTO information) {
+        Check.notBlank(hash, "hash");
+        final ImageInformationDTOImpl dto = (ImageInformationDTOImpl) information;
+        final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+        dto.getMap().forEach(body::addFormDataPart);
+
+        return new RestActionImpl<>(
+            api,
+            Route.ImageEndpoints.POST_IMAGE_INFORMATION.compile(hash),
+            dto.getMap().isEmpty() ? null : body.build(),
             (req, res) -> {
                 final DataObject obj = res.getObject();
                 return obj.getBoolean("data");

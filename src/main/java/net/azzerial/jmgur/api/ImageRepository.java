@@ -17,6 +17,7 @@
 package net.azzerial.jmgur.api;
 
 import net.azzerial.jmgur.api.entities.Image;
+import net.azzerial.jmgur.api.entities.dto.ImageInformationDTO;
 import net.azzerial.jmgur.api.entities.dto.ImageUploadDTO;
 import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import org.jetbrains.annotations.NotNull;
@@ -36,4 +37,7 @@ public interface ImageRepository {
 
     @NotNull
     RestAction<Boolean> deleteImage(@NotNull String hash);
+
+    @NotNull
+    RestAction<Boolean> updateImageInformation(@NotNull String hash, @NotNull ImageInformationDTO information);
 }

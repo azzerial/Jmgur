@@ -18,6 +18,7 @@ package net.azzerial.jmgur.internal.entities;
 
 import net.azzerial.jmgur.api.Jmgur;
 import net.azzerial.jmgur.api.entities.*;
+import net.azzerial.jmgur.api.entities.dto.ImageInformationDTO;
 import net.azzerial.jmgur.api.entities.subentities.AlbumLayout;
 import net.azzerial.jmgur.api.entities.subentities.AlbumPrivacy;
 import net.azzerial.jmgur.api.entities.subentities.ImagePrivacy;
@@ -52,6 +53,10 @@ public final class EntityBuilder {
 
     public static AccountSettingsDTOImpl createAccountSettingsDTO() {
         return new AccountSettingsDTOImpl();
+    }
+
+    public static ImageInformationDTO createImageInformationDTO() {
+        return new ImageInformationDTOImpl();
     }
 
     public static ImageUploadDTOImpl createImageUploadDTO() {
