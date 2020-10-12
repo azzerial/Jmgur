@@ -91,6 +91,12 @@ public final class Route {
         public static final Route DELETE_USER_IMAGE = new Route(DELETE, BEARER, "3/account/{username}/image/{delete_hash}");
     }
 
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static final class ImageEndpoints {
+
+        public static final Route GET_IMAGE = new Route(GET, CLIENT_ID, "3/image/{image_hash}");
+    }
+
     private final Method method;
     private final AuthorizationHeader authHeader;
     private final String route;
