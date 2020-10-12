@@ -40,4 +40,7 @@ public interface ImageRepository {
 
     @NotNull
     RestAction<Boolean> updateImageInformation(@NotNull String hash, @NotNull ImageInformationDTO information);
+
+    @NotNull
+    RestAction<Boolean> favoriteImage(@NotNull String hash);
 }

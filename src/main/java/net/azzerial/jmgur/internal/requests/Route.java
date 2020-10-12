@@ -98,6 +98,7 @@ public final class Route {
         public static final Route POST_IMAGE = new Route(POST, BEARER, "3/upload");
         public static final Route DELETE_IMAGE = new Route(DELETE, BEARER, "3/image/{image_hash}");
         public static final Route POST_IMAGE_INFORMATION = new Route(POST, BEARER, "3/image/{image_hash}");
+        public static final Route POST_IMAGE_FAVORITE = new Route(POST, BEARER, "3/image/{image_hash}/favorite");
     }
 
     private final Method method;

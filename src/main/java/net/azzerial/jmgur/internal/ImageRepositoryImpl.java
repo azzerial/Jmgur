@@ -136,4 +136,18 @@ public class ImageRepositoryImpl implements ImageRepository {
             }
         );
     }
+
+    @NotNull
+    @Override
+    public RestAction<Boolean> favoriteImage(@NotNull String hash) {
+        Check.notBlank(hash, "hash");
+        return new RestActionImpl<>(
+            api,
+            Route.ImageEndpoints.POST_IMAGE_FAVORITE.compile(hash),
+            (req, res) -> {
+                final DataObject obj = res.getObject();
+                return obj.getString("data").equals("favorited");
+            }
+        );
+    }
 }
