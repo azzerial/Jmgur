@@ -175,7 +175,7 @@ api.ACCOUNT // Account repository
 api.COMMENT // Comment repository        NOT AVAILABLE YET
 api.ALBUM   // Album repository          NOT AVAILABLE YET
 api.GALLERY // Gallery repository        NOT AVAILABLE YET
-api.IMAGE   // Image repository          NOT AVAILABLE YET
+api.IMAGE   // Image repository
 ```
 
 
@@ -294,12 +294,12 @@ api.ACCOUNT.getSelfGalleryFavorites()
 
 // get(int)
 api.ACCOUNT.getSelfSubmissions()
-    .get(12); // returns the RestAction of the 12th page
+    .get(12); // returns the RestAction of the 13th page
 
 // get(), reset, skip(), skipTo(int)
 api.ACCOUNT.getUserAlbums("jmgur_guy")
-    .skip(2) // skisp 2 pages (now on the 3rd page)
-    .skipTo(7) // skips to the 7th page (now on the 7th page)
+    .skip(2) // skips 2 pages (now on the 3rd page)
+    .skipTo(7) // skips to the 8th page (now on the 8th page)
     .reset() // resets iterator (now on the 1st page)
     .get(); // returns the RestAction of the 1st page
 
@@ -321,7 +321,7 @@ Latest Version: [![bintray_svg][]][bintray]
 
 ```groovy
 dependencies {
-    compile 'net.azzerial:jmgur:VERSION'
+    implementation 'net.azzerial:jmgur:VERSION'
 }
 ```
 
