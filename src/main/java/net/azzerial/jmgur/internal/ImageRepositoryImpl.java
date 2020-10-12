@@ -73,8 +73,8 @@ public class ImageRepositoryImpl implements ImageRepository {
 
     @NotNull
     @Override
-    public RestAction<Image> uploadImage(@NotNull ImageUploadDTO image) {
-        final ImageUploadDTOImpl dto = (ImageUploadDTOImpl) image;
+    public RestAction<Image> uploadImage(@NotNull ImageUploadDTO upload) {
+        final ImageUploadDTOImpl dto = (ImageUploadDTOImpl) upload;
         final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
 
         if (dto.getType() == null)
