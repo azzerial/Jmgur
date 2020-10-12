@@ -36,7 +36,7 @@ public final class Route {
     /* API Endpoints */
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    public static final class AccountEndpoint {
+    public static final class AccountEndpoints {
 
         /* --- Profiles --- */
 

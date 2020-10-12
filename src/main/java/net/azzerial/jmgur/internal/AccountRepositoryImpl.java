@@ -65,7 +65,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.notBlank(name, "name");
         return new RestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_USER_PROFILE.compile(name),
+            Route.AccountEndpoints.GET_USER_PROFILE.compile(name),
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataObject obj = res.getObject().getObject("data");
@@ -80,7 +80,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.notBlank(name, "name");
         return new RestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_USER_GALLERY_PROFILE.compile(name),
+            Route.AccountEndpoints.GET_USER_GALLERY_PROFILE.compile(name),
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataObject obj = res.getObject().getObject("data");
@@ -97,7 +97,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.notBlank(name, "name");
         return new RestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_SELF_BLOCK_STATUS.compile(name),
+            Route.AccountEndpoints.GET_SELF_BLOCK_STATUS.compile(name),
             (req, res) -> {
                 final DataObject obj = res.getObject().getObject("data");
                 return obj.getBoolean("blocked");
@@ -117,7 +117,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.notBlank(name, "name");
         return new RestActionImpl<>(
             api,
-            Route.AccountEndpoint.POST_SELF_BLOCK_CREATE.compile(name),
+            Route.AccountEndpoints.POST_SELF_BLOCK_CREATE.compile(name),
             (req, res) -> res.isOk()
         );
     }
@@ -128,7 +128,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.notBlank(name, "name");
         return new RestActionImpl<>(
             api,
-            Route.AccountEndpoint.DELETE_SELF_BLOCK_CREATE.compile(name),
+            Route.AccountEndpoints.DELETE_SELF_BLOCK_CREATE.compile(name),
             (req, res) -> res.isOk()
         );
     }
@@ -143,7 +143,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.check(sort != FavoriteSort.UNKNOWN, "sort must not be UNKNOWN");
         return new PagedRestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_USER_GALLERY_FAVORITES,
+            Route.AccountEndpoints.GET_USER_GALLERY_FAVORITES,
             new String[] {name, null, sort.getKey()},
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
@@ -167,7 +167,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.check(sort != FavoriteSort.UNKNOWN, "sort must not be UNKNOWN");
         return new PagedRestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_USER_FAVORITES,
+            Route.AccountEndpoints.GET_USER_FAVORITES,
             new String[] {name, null, sort.getKey()},
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
@@ -189,7 +189,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.notBlank(name, "name");
         return new PagedRestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_USER_SUBMISSIONS,
+            Route.AccountEndpoints.GET_USER_SUBMISSIONS,
             new String[] {name, null},
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
@@ -213,7 +213,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.notBlank(name, "name");
         return new RestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_USER_AVAILABLE_AVATARS.compile(name),
+            Route.AccountEndpoints.GET_USER_AVAILABLE_AVATARS.compile(name),
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataObject obj = res.getObject().getObject("data");
@@ -238,7 +238,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.notBlank(name, "name");
         return new RestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_USER_AVATAR.compile(name),
+            Route.AccountEndpoints.GET_USER_AVATAR.compile(name),
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataObject obj = res.getObject().getObject("data");
@@ -257,7 +257,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
     public RestAction<AccountSettings> getSelfAccountSettings() {
         return new RestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_SELF_SETTINGS.compile(),
+            Route.AccountEndpoints.GET_SELF_SETTINGS.compile(),
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataObject obj = res.getObject().getObject("data");
@@ -276,7 +276,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
 
         return new RestActionImpl<>(
             api,
-            Route.AccountEndpoint.POST_SELF_SETTINGS.compile(),
+            Route.AccountEndpoints.POST_SELF_SETTINGS.compile(),
             dto.getMap().isEmpty() ? null : builder.build(),
             (req, res) -> {
                 final DataObject obj = res.getObject();
@@ -293,7 +293,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.notBlank(name, "name");
         return new PagedRestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_USER_ALBUMS,
+            Route.AccountEndpoints.GET_USER_ALBUMS,
             new String[] {name, null},
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
@@ -316,7 +316,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.notBlank(hash, "hash");
         return new RestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_USER_ALBUM.compile(name, hash),
+            Route.AccountEndpoints.GET_USER_ALBUM.compile(name, hash),
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataObject obj = res.getObject().getObject("data");
@@ -331,7 +331,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.notBlank(name, "name");
         return new PagedRestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_USER_ALBUM_IDS,
+            Route.AccountEndpoints.GET_USER_ALBUM_IDS,
             new String[] {name, null},
             (req, res) -> {
                 final DataArray arr = res.getObject().getArray("data");
@@ -351,7 +351,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.notBlank(name, "name");
         return new RestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_USER_ALBUM_COUNT.compile(name),
+            Route.AccountEndpoints.GET_USER_ALBUM_COUNT.compile(name),
             (req, res) -> {
                 final DataObject obj = res.getObject();
                 return obj.getUnsignedInt("data");
@@ -366,7 +366,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.notBlank(deleteHash, "deleteHash");
         return new RestActionImpl<>(
             api,
-            Route.AccountEndpoint.DELETE_USER_ALBUM.compile(name, deleteHash),
+            Route.AccountEndpoints.DELETE_USER_ALBUM.compile(name, deleteHash),
             (req, res) -> {
                 final DataObject obj = res.getObject();
                 return obj.hasKey("data") && obj.isType("data", DataType.BOOLEAN);
@@ -384,7 +384,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.check(sort != CommentSort.UNKNOWN, "sort must not be UNKNOWN");
         return new PagedRestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_USER_COMMENTS,
+            Route.AccountEndpoints.GET_USER_COMMENTS,
             new String[] {name, sort.getKey(), null},
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
@@ -407,7 +407,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.positive(id, "id");
         return new RestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_USER_COMMENT.compile(name, Long.toUnsignedString(id)),
+            Route.AccountEndpoints.GET_USER_COMMENT.compile(name, Long.toUnsignedString(id)),
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataObject obj = res.getObject().getObject("data");
@@ -424,7 +424,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.check(sort != CommentSort.UNKNOWN, "sort must not be UNKNOWN");
         return new PagedRestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_USER_COMMENT_IDS,
+            Route.AccountEndpoints.GET_USER_COMMENT_IDS,
             new String[] {name, sort.getKey(), null},
             (req, res) -> {
                 final DataArray arr = res.getObject().getArray("data");
@@ -444,7 +444,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.notBlank(name, "name");
         return new RestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_USER_COMMENT_COUNT.compile(name),
+            Route.AccountEndpoints.GET_USER_COMMENT_COUNT.compile(name),
             (req, res) -> {
                 final DataObject obj = res.getObject();
                 return obj.getUnsignedInt("data");
@@ -458,7 +458,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.positive(id, "id");
         return new RestActionImpl<>(
             api,
-            Route.AccountEndpoint.DELETE_SELF_COMMENT.compile("me", Long.toUnsignedString(id)),
+            Route.AccountEndpoints.DELETE_SELF_COMMENT.compile("me", Long.toUnsignedString(id)),
             (req, res) -> {
                 final DataObject obj = res.getObject();
                 return obj.hasKey("data") && obj.isType("data", DataType.BOOLEAN);
@@ -473,7 +473,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
     public PagedRestAction<List<Image>> getSelfImages() {
         return new PagedRestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_SELF_IMAGES,
+            Route.AccountEndpoints.GET_SELF_IMAGES,
             new String[] {"me", null},
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
@@ -496,7 +496,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.notBlank(hash, "hash");
         return new RestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_USER_IMAGE.compile(name, hash),
+            Route.AccountEndpoints.GET_USER_IMAGE.compile(name, hash),
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataObject obj = res.getObject().getObject("data");
@@ -511,7 +511,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.notBlank(name, "name");
         return new PagedRestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_USER_IMAGE_IDS,
+            Route.AccountEndpoints.GET_USER_IMAGE_IDS,
             new String[] {name, null},
             (req, res) -> {
                 final DataArray arr = res.getObject().getArray("data");
@@ -531,7 +531,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.notBlank(name, "name");
         return new RestActionImpl<>(
             api,
-            Route.AccountEndpoint.GET_USER_IMAGE_COUNT.compile(name),
+            Route.AccountEndpoints.GET_USER_IMAGE_COUNT.compile(name),
             (req, res) -> {
                 final DataObject obj = res.getObject();
                 return obj.getUnsignedInt("data");
@@ -546,7 +546,7 @@ public final class AccountRepositoryImpl implements AccountRepository {
         Check.notBlank(deleteHash, "deleteHash");
         return new RestActionImpl<>(
             api,
-            Route.AccountEndpoint.DELETE_USER_IMAGE.compile(name, deleteHash),
+            Route.AccountEndpoints.DELETE_USER_IMAGE.compile(name, deleteHash),
             (req, res) -> {
                 final DataObject obj = res.getObject();
                 return obj.hasKey("data") && obj.isType("data", DataType.BOOLEAN);
@@ -566,8 +566,8 @@ public final class AccountRepositoryImpl implements AccountRepository {
         return new RestActionImpl<>(
             api,
             !params.containsKey("last_seen_id") ?
-                Route.AccountEndpoint.GET_SELF_BLOCKS.compile() :
-                Route.AccountEndpoint.GET_SELF_BLOCKS.compile().addQueryParams("last_seen_id", params.get("last_seen_id"))
+                Route.AccountEndpoints.GET_SELF_BLOCKS.compile() :
+                Route.AccountEndpoints.GET_SELF_BLOCKS.compile().addQueryParams("last_seen_id", params.get("last_seen_id"))
             ,
             (req, res) -> {
                 final DataObject obj = res.getObject().getObject("data");
