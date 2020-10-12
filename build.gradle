@@ -187,6 +187,8 @@ class Version {
     String toString() {
         if (patch == null && tag == null)
             return String.format('%s.%s', major.toLowerCase(), minor.toLowerCase())
+        if (patch == null && tag.isNumber())
+            return String.format('%s.%s.%s', major.toLowerCase(), minor.toLowerCase(), tag.toLowerCase())
         if (patch == null)
             return String.format('%s.%s-%s', major.toLowerCase(), minor.toLowerCase(), tag.toLowerCase())
         return String.format('%s.%s.%s-%s', major.toLowerCase(), minor.toLowerCase(), patch.toLowerCase(), tag.toLowerCase())
