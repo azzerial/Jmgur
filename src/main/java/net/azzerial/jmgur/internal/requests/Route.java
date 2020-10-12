@@ -96,6 +96,7 @@ public final class Route {
 
         public static final Route GET_IMAGE = new Route(GET, CLIENT_ID, "3/image/{image_hash}");
         public static final Route POST_IMAGE = new Route(POST, BEARER, "3/upload");
+        public static final Route DELETE_IMAGE = new Route(DELETE, BEARER, "3/image/{image_hash}");
     }
 
     private final Method method;

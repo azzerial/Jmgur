@@ -33,4 +33,7 @@ public interface ImageRepository {
 
     @NotNull
     RestAction<Image> uploadImage(@NotNull ImageUploadDTO image);
+
+    @NotNull
+    RestAction<Boolean> deleteImage(@NotNull String hash);
 }

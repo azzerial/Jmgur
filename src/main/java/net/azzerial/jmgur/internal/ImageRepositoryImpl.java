@@ -100,4 +100,18 @@ public class ImageRepositoryImpl implements ImageRepository {
             }
         );
     }
+
+    @NotNull
+    @Override
+    public RestAction<Boolean> deleteImage(@NotNull String hash) {
+        Check.notBlank(hash, "hash");
+        return new RestActionImpl<>(
+            api,
+            Route.ImageEndpoints.DELETE_IMAGE.compile(hash),
+            (req, res) -> {
+                final DataObject obj = res.getObject();
+                return obj.getBoolean("data");
+            }
+        );
+    }
 }
