@@ -68,6 +68,7 @@ public final class AccountSettingsDTOImpl implements AccountSettingsDTO {
     @NotNull
     @Override
     public AccountSettingsDTO setImagePrivacy(@NotNull ImagePrivacy privacy) {
+        Check.notNull(privacy, "privacy");
         Check.check(privacy != ImagePrivacy.UNKNOWN, "privacy must not be UNKNOWN");
         this.map.put("public_images", String.valueOf(privacy.getKey()));
         return this;
@@ -76,6 +77,7 @@ public final class AccountSettingsDTOImpl implements AccountSettingsDTO {
     @NotNull
     @Override
     public AccountSettingsDTO setAlbumPrivacy(@NotNull AlbumPrivacy privacy) {
+        Check.notNull(privacy, "privacy");
         Check.check(privacy != AlbumPrivacy.UNKNOWN, "privacy must not be UNKNOWN");
         this.map.put("album_privacy", privacy.getKey());
         return this;
@@ -107,5 +109,11 @@ public final class AccountSettingsDTOImpl implements AccountSettingsDTO {
     public AccountSettingsDTO subscribeToNewsletter(boolean subscribe) {
         this.map.put("newsletter_subscribed", String.valueOf(subscribe));
         return this;
+    }
+
+    /* Methods */
+
+    public boolean isEmpty() {
+        return map.isEmpty();
     }
 }

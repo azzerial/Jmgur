@@ -133,7 +133,7 @@ public interface AccountRepository {
     RestAction<AccountSettings> getSelfAccountSettings();
 
     @NotNull
-    RestAction<Boolean> updateSelfAccountSettings(@NotNull AccountSettingsDTO settings);
+    RestAction<Boolean> updateSelfAccountSettings(@NotNull AccountSettingsDTO dto);
 
     /* --- Albums --- */
 

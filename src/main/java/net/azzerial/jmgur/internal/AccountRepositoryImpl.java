@@ -268,16 +268,17 @@ public final class AccountRepositoryImpl implements AccountRepository {
 
     @NotNull
     @Override
-    public RestAction<Boolean> updateSelfAccountSettings(@NotNull AccountSettingsDTO settings) {
-        final AccountSettingsDTOImpl dto = (AccountSettingsDTOImpl) settings;
+    public RestAction<Boolean> updateSelfAccountSettings(@NotNull AccountSettingsDTO dto) {
+        Check.notNull(dto, "dto");
+        final AccountSettingsDTOImpl impl = (AccountSettingsDTOImpl) dto;
         final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
 
-        dto.getMap().forEach(body::addFormDataPart);
+        impl.getMap().forEach(body::addFormDataPart);
 
         return new RestActionImpl<>(
             api,
             Route.AccountEndpoints.POST_SELF_SETTINGS.compile(),
-            dto.getMap().isEmpty() ? null : body.build(),
+            impl.isEmpty() ? null : body.build(),
             (req, res) -> {
                 final DataObject obj = res.getObject();
                 return obj.getBoolean("data");

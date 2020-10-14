@@ -50,4 +50,10 @@ public final class ImageInformationDTOImpl implements ImageInformationDTO {
         this.map.put("description", description == null ? "" : description);
         return this;
     }
+
+    /* Methods */
+
+    public boolean isEmpty() {
+        return map.isEmpty();
+    }
 }

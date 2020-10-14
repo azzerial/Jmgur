@@ -33,13 +33,13 @@ public interface ImageRepository {
     RestAction<Image> getImage(@NotNull String hash);
 
     @NotNull
-    RestAction<Image> uploadImage(@NotNull ImageUploadDTO upload);
+    RestAction<Image> uploadImage(@NotNull ImageUploadDTO dto);
 
     @NotNull
     RestAction<Boolean> deleteImage(@NotNull String hash);
 
     @NotNull
-    RestAction<Boolean> updateImageInformation(@NotNull String hash, @NotNull ImageInformationDTO information);
+    RestAction<Boolean> updateImageInformation(@NotNull String hash, @NotNull ImageInformationDTO dto);
 
     @NotNull
     RestAction<Boolean> favoriteImage(@NotNull String hash);

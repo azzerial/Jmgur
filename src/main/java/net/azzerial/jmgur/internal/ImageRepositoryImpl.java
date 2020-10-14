@@ -73,28 +73,29 @@ public class ImageRepositoryImpl implements ImageRepository {
 
     @NotNull
     @Override
-    public RestAction<Image> uploadImage(@NotNull ImageUploadDTO upload) {
-        final ImageUploadDTOImpl dto = (ImageUploadDTOImpl) upload;
+    public RestAction<Image> uploadImage(@NotNull ImageUploadDTO dto) {
+        Check.notNull(dto, "dto");
+        final ImageUploadDTOImpl impl = (ImageUploadDTOImpl) dto;
         final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
 
-        if (dto.getType() == null)
+        if (impl.getType() == null)
             throw new IllegalArgumentException("no image or video provided");
-        if (dto.getType() == FileType.BINARY_FILE) {
+        if (impl.getType() == FileType.BINARY_FILE) {
             body.addFormDataPart(
-                dto.isFileVideo() ? "video" : "image",
-                dto.getFile() != null ? dto.getFile().getName() : "",
-                RequestBody.create(Objects.requireNonNull(dto.getFile()), null)
+                impl.isFileVideo() ? "video" : "image",
+                impl.getFile() != null ? impl.getFile().getName() : "",
+                RequestBody.create(Objects.requireNonNull(impl.getFile()), null)
             );
         }
-        if (dto.getType() == FileType.BASE64 || dto.getType() == FileType.URL)
-            body.addFormDataPart("image", dto.getData());
-        body.addFormDataPart("type", dto.getType().getKey());
-        dto.getMap().forEach(body::addFormDataPart);
+        if (impl.getType() == FileType.BASE64 || impl.getType() == FileType.URL)
+            body.addFormDataPart("image", impl.getData());
+        body.addFormDataPart("type", impl.getType().getKey());
+        impl.getMap().forEach(body::addFormDataPart);
 
         return new RestActionImpl<>(
             api,
             Route.ImageEndpoints.POST_IMAGE.compile(),
-            dto.getMap().isEmpty() ? null : body.build(),
+            impl.isEmpty() ? null : body.build(),
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataObject obj = res.getObject().getObject("data");
@@ -119,17 +120,18 @@ public class ImageRepositoryImpl implements ImageRepository {
 
     @NotNull
     @Override
-    public RestAction<Boolean> updateImageInformation(@NotNull String hash, @NotNull ImageInformationDTO information) {
+    public RestAction<Boolean> updateImageInformation(@NotNull String hash, @NotNull ImageInformationDTO dto) {
         Check.notBlank(hash, "hash");
-        final ImageInformationDTOImpl dto = (ImageInformationDTOImpl) information;
+        Check.notNull(dto, "dto");
+        final ImageInformationDTOImpl impl = (ImageInformationDTOImpl) dto;
         final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
 
-        dto.getMap().forEach(body::addFormDataPart);
+        impl.getMap().forEach(body::addFormDataPart);
 
         return new RestActionImpl<>(
             api,
             Route.ImageEndpoints.POST_IMAGE_INFORMATION.compile(hash),
-            dto.getMap().isEmpty() ? null : body.build(),
+            impl.isEmpty() ? null : body.build(),
             (req, res) -> {
                 final DataObject obj = res.getObject();
                 return obj.getBoolean("data");

@@ -51,6 +51,8 @@ public final class ImageUploadDTOImpl implements ImageUploadDTO {
     @NotNull
     @Override
     public ImageUploadDTO of(@NotNull FileType type, @NotNull Object data) {
+        Check.notNull(type, "type");
+        Check.check(type != FileType.UNKNOWN, "section must not be UNKNOWN");
         if (!(data instanceof CharSequence) && !(data instanceof File))
             throw new IllegalArgumentException("data may only be a String or a File");
         if (data instanceof CharSequence && (type == FileType.BASE64 || type == FileType.URL)) {
@@ -111,5 +113,11 @@ public final class ImageUploadDTOImpl implements ImageUploadDTO {
     public ImageUploadDTO isVideo(boolean video) {
         this.isFileVideo = video;
         return this;
+    }
+
+    /* Methods */
+
+    public boolean isEmpty() {
+        return type == null && map.isEmpty();
     }
 }
