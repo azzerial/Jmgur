@@ -67,5 +67,5 @@ public interface ImageUploadDTO {
     ImageUploadDTO disableAudio(boolean enabled);
 
     @NotNull
-    ImageUploadDTO isVideo();
+    ImageUploadDTO isVideo(boolean video);
 }

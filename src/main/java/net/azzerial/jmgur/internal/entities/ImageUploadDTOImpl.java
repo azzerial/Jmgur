@@ -108,8 +108,8 @@ public final class ImageUploadDTOImpl implements ImageUploadDTO {
 
     @NotNull
     @Override
-    public ImageUploadDTO isVideo() {
-        this.isFileVideo = true;
+    public ImageUploadDTO isVideo(boolean video) {
+        this.isFileVideo = video;
         return this;
     }
 }
