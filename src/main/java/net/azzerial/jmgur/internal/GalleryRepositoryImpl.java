@@ -20,17 +20,20 @@ import net.azzerial.jmgur.api.GalleryRepository;
 import net.azzerial.jmgur.api.Jmgur;
 import net.azzerial.jmgur.api.entities.GalleryElement;
 import net.azzerial.jmgur.api.entities.dto.GalleryDTO;
+import net.azzerial.jmgur.api.entities.dto.GallerySearchDTO;
 import net.azzerial.jmgur.api.requests.restaction.PagedRestAction;
 import net.azzerial.jmgur.api.utils.data.DataArray;
 import net.azzerial.jmgur.api.utils.data.DataObject;
 import net.azzerial.jmgur.internal.entities.EntityBuilder;
 import net.azzerial.jmgur.internal.entities.GalleryDTOImpl;
+import net.azzerial.jmgur.internal.entities.GallerySearchDTOImpl;
 import net.azzerial.jmgur.internal.requests.Route;
 import net.azzerial.jmgur.internal.requests.restaction.PagedRestActionImpl;
 import net.azzerial.jmgur.internal.utils.Check;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class GalleryRepositoryImpl implements GalleryRepository {
@@ -72,6 +75,48 @@ public class GalleryRepositoryImpl implements GalleryRepository {
                 "mature", String.valueOf(impl.isMature()),
                 "album_previews", String.valueOf(impl.isAlbumPreviews())
             },
+            (req, res) -> {
+                final EntityBuilder builder = api.getEntityBuilder();
+                final DataArray arr = res.getObject().getArray("data");
+                final List<GalleryElement> galleryElements = new ArrayList<>();
+
+                for (int i = 0; i < arr.length(); i += 1) {
+                    final DataObject galleryElementObj = arr.getObject(i);
+                    galleryElements.add(builder.createGalleryElement(galleryElementObj));
+                }
+                return galleryElements;
+            }
+        );
+    }
+
+    @NotNull
+    @Override
+    public PagedRestAction<List<GalleryElement>> searchGallery(@NotNull GallerySearchDTO dto) {
+        Check.notNull(dto, "dto");
+        final GallerySearchDTOImpl impl = (GallerySearchDTOImpl) dto;
+        final List<String> queryParams = new LinkedList<String>() {{
+            add(impl.getType().getKey());
+            add(impl.getQuery());
+        }};
+
+        if (impl.getFileType() != null) {
+            queryParams.add("q_type");
+            queryParams.add(impl.getFileType().getKey());
+        }
+        if (impl.getImageSize() != null) {
+            queryParams.add("q_size_px");
+            queryParams.add(impl.getImageSize().getKey());
+        }
+
+        return new PagedRestActionImpl<>(
+            api,
+            Route.GalleryEndpoints.GET_GALLERY_SEARCH,
+            new String[] {
+                impl.getSort().getKey(),
+                impl.getTimeWindow().getKey(),
+                null
+            },
+            queryParams.toArray(new String[]{}),
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataArray arr = res.getObject().getArray("data");

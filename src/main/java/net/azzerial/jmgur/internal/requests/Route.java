@@ -96,6 +96,7 @@ public final class Route {
     public static final class GalleryEndpoints {
 
         public static final Route GET_GALLERY = new Route(GET, CLIENT_ID, "3/gallery/(section)/(sort)/(time_window)/(page)");
+        public static final Route GET_GALLERY_SEARCH = new Route(GET, CLIENT_ID, "3/gallery/search/(sort)/(time_window)/(page)");
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

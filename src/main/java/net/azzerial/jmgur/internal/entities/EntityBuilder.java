@@ -59,6 +59,10 @@ public final class EntityBuilder {
         return new GalleryDTOImpl();
     }
 
+    public static GallerySearchDTOImpl createGallerySearchDTO() {
+        return new GallerySearchDTOImpl();
+    }
+
     public static ImageInformationDTO createImageInformationDTO() {
         return new ImageInformationDTOImpl();
     }
