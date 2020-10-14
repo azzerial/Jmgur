@@ -28,7 +28,8 @@ import net.azzerial.jmgur.internal.utils.Check;
 import net.azzerial.jmgur.internal.utils.Helper;
 import org.jetbrains.annotations.NotNull;
 
-import static net.azzerial.jmgur.internal.requests.AuthorizationHeader.*;
+import static net.azzerial.jmgur.internal.requests.AuthorizationHeader.BEARER;
+import static net.azzerial.jmgur.internal.requests.AuthorizationHeader.CLIENT_ID;
 import static net.azzerial.jmgur.internal.requests.Method.*;
 
 public final class Route {

@@ -22,12 +22,12 @@
 package net.azzerial.jmgur.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.azzerial.jmgur.internal.utils.Check;
-import net.azzerial.jmgur.internal.utils.IOUtil;
 import net.azzerial.jmgur.api.utils.config.AuthenticationConfig;
 import net.azzerial.jmgur.api.utils.config.SessionConfig;
 import net.azzerial.jmgur.api.utils.config.ThreadingConfig;
 import net.azzerial.jmgur.api.utils.config.flags.ConfigFlag;
+import net.azzerial.jmgur.internal.utils.Check;
+import net.azzerial.jmgur.internal.utils.IOUtil;
 import okhttp3.OkHttpClient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

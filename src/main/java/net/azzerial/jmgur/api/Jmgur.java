@@ -21,14 +21,14 @@
 
 package net.azzerial.jmgur.api;
 
+import net.azzerial.jmgur.api.utils.config.AuthenticationConfig;
+import net.azzerial.jmgur.api.utils.config.SessionConfig;
+import net.azzerial.jmgur.api.utils.config.ThreadingConfig;
 import net.azzerial.jmgur.internal.AccountRepositoryImpl;
 import net.azzerial.jmgur.internal.GalleryRepositoryImpl;
 import net.azzerial.jmgur.internal.ImageRepositoryImpl;
 import net.azzerial.jmgur.internal.entities.EntityBuilder;
 import net.azzerial.jmgur.internal.requests.Requester;
-import net.azzerial.jmgur.api.utils.config.AuthenticationConfig;
-import net.azzerial.jmgur.api.utils.config.SessionConfig;
-import net.azzerial.jmgur.api.utils.config.ThreadingConfig;
 import org.jetbrains.annotations.NotNull;
 
 public final class Jmgur {

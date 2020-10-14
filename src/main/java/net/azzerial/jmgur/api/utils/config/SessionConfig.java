@@ -23,8 +23,8 @@ package net.azzerial.jmgur.api.utils.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.azzerial.jmgur.api.OAuth2;
-import net.azzerial.jmgur.internal.utils.Check;
 import net.azzerial.jmgur.api.utils.config.flags.ConfigFlag;
+import net.azzerial.jmgur.internal.utils.Check;
 import okhttp3.OkHttpClient;
 import org.jetbrains.annotations.NotNull;
 

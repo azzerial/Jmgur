@@ -17,9 +17,9 @@
 package net.azzerial.jmgur.internal.requests.restaction;
 
 import net.azzerial.jmgur.api.Jmgur;
-import net.azzerial.jmgur.api.requests.restaction.PagedRestAction;
 import net.azzerial.jmgur.api.requests.Request;
 import net.azzerial.jmgur.api.requests.Response;
+import net.azzerial.jmgur.api.requests.restaction.PagedRestAction;
 import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import net.azzerial.jmgur.internal.requests.Route;
 import net.azzerial.jmgur.internal.utils.Check;
