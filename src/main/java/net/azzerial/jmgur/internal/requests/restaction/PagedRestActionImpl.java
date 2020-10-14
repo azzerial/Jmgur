@@ -35,18 +35,27 @@ public final class PagedRestActionImpl<T> implements PagedRestAction<T> {
     private final Jmgur api;
     private final Map<Integer, RestAction<T>> map;
     private final Route route;
-    private final String[] params;
+    private final String[] pathParams;
+    private final String[] queryParams;
     private final BiFunction<Request<T>, Response, T> handler;
 
     private int page;
 
     /* Constructors */
 
-    public PagedRestActionImpl(@NotNull Jmgur api, @NotNull Route route, @Nullable String[] params, @NotNull BiFunction<Request<T>, Response, T> handler) {
-        this(api, route, params, handler, 0);
+    public PagedRestActionImpl(@NotNull Jmgur api, @NotNull Route route, @Nullable String[] pathParams, @NotNull BiFunction<Request<T>, Response, T> handler) {
+        this(api, route, pathParams, null, handler, 0);
     }
 
-    public PagedRestActionImpl(@NotNull Jmgur api, @NotNull Route route, @Nullable String[] params, @NotNull BiFunction<Request<T>, Response, T> handler, int page) {
+    public PagedRestActionImpl(@NotNull Jmgur api, @NotNull Route route, @Nullable String[] pathParams, @Nullable String[] queryParams, @NotNull BiFunction<Request<T>, Response, T> handler) {
+        this(api, route, pathParams, queryParams, handler, 0);
+    }
+
+    public PagedRestActionImpl(@NotNull Jmgur api, @NotNull Route route, @Nullable String[] pathParams, @NotNull BiFunction<Request<T>, Response, T> handler, int page) {
+        this(api, route, pathParams, null, handler, page);
+    }
+
+    public PagedRestActionImpl(@NotNull Jmgur api, @NotNull Route route, @Nullable String[] pathParams, @Nullable String[] queryParams, @NotNull BiFunction<Request<T>, Response, T> handler, int page) {
         Check.notNull(api, "api");
         Check.notNull(route, "route");
         Check.notNull(handler, "handler");
@@ -54,7 +63,8 @@ public final class PagedRestActionImpl<T> implements PagedRestAction<T> {
         this.api = api;
         this.map = new ConcurrentHashMap<>();
         this.route = route;
-        this.params = params;
+        this.pathParams = pathParams;
+        this.queryParams = queryParams;
         this.handler = handler;
         this.page = page;
     }
@@ -128,12 +138,14 @@ public final class PagedRestActionImpl<T> implements PagedRestAction<T> {
 
     @NotNull
     private RestAction<T> buildRestAction(int page) {
-        return new RestActionImpl<>(api, route.compile(buildParams(page)), handler);
+        return queryParams != null ?
+            new RestActionImpl<>(api, route.compile(buildPathParams(page)).addQueryParams(queryParams), handler) :
+            new RestActionImpl<>(api, route.compile(buildPathParams(page)), handler);
     }
 
     @NotNull
-    private String[] buildParams(int page) {
-        final String[] params = this.params.clone();
+    private String[] buildPathParams(int page) {
+        final String[] params = this.pathParams.clone();
 
         if (params == null)
             return new String[0];

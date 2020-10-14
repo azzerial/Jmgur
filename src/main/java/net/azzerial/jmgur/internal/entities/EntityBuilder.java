@@ -55,6 +55,10 @@ public final class EntityBuilder {
         return new AccountSettingsDTOImpl();
     }
 
+    public static GalleryDTOImpl createGalleryDTO() {
+        return new GalleryDTOImpl();
+    }
+
     public static ImageInformationDTO createImageInformationDTO() {
         return new ImageInformationDTOImpl();
     }

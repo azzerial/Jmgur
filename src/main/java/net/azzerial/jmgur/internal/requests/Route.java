@@ -92,6 +92,12 @@ public final class Route {
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static final class GalleryEndpoints {
+
+        public static final Route GET_GALLERY = new Route(GET, CLIENT_ID, "3/gallery/(section)/(sort)/(time_window)/(page)");
+    }
+
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class ImageEndpoints {
 
         public static final Route GET_IMAGE = new Route(GET, CLIENT_ID, "3/image/{image_hash}");

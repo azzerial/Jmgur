@@ -1,0 +1,88 @@
+/*
+ * Copyright 2020 Robin Mercier
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package net.azzerial.jmgur.internal;
+
+import net.azzerial.jmgur.api.GalleryRepository;
+import net.azzerial.jmgur.api.Jmgur;
+import net.azzerial.jmgur.api.entities.GalleryElement;
+import net.azzerial.jmgur.api.entities.dto.GalleryDTO;
+import net.azzerial.jmgur.api.requests.restaction.PagedRestAction;
+import net.azzerial.jmgur.api.utils.data.DataArray;
+import net.azzerial.jmgur.api.utils.data.DataObject;
+import net.azzerial.jmgur.internal.entities.EntityBuilder;
+import net.azzerial.jmgur.internal.entities.GalleryDTOImpl;
+import net.azzerial.jmgur.internal.requests.Route;
+import net.azzerial.jmgur.internal.requests.restaction.PagedRestActionImpl;
+import net.azzerial.jmgur.internal.utils.Check;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class GalleryRepositoryImpl implements GalleryRepository {
+
+    private final Jmgur api;
+
+    /* Constructors */
+
+    public GalleryRepositoryImpl(@NotNull Jmgur api) {
+        this.api = api;
+    }
+
+    /* Methods */
+
+    @NotNull
+    @Override
+    public Jmgur getApi() {
+        return api;
+    }
+
+    /* --- Resources --- */
+
+    @NotNull
+    @Override
+    public PagedRestAction<List<GalleryElement>> getGallery(@NotNull GalleryDTO dto) {
+        Check.notNull(dto, "dto");
+        final GalleryDTOImpl impl = (GalleryDTOImpl) dto;
+        return new PagedRestActionImpl<>(
+            api,
+            Route.GalleryEndpoints.GET_GALLERY,
+            new String[] {
+                impl.getSection().getKey(),
+                impl.getSort().getKey(),
+                impl.getTimeWindow().getKey(),
+                null
+            },
+            new String[] {
+                "showViral", String.valueOf(impl.isViral()),
+                "mature", String.valueOf(impl.isMature()),
+                "album_previews", String.valueOf(impl.isAlbumPreviews())
+            },
+            (req, res) -> {
+                final EntityBuilder builder = api.getEntityBuilder();
+                final DataArray arr = res.getObject().getArray("data");
+                final List<GalleryElement> galleryElements = new ArrayList<>();
+
+                for (int i = 0; i < arr.length(); i += 1) {
+                    final DataObject galleryElementObj = arr.getObject(i);
+                    galleryElements.add(builder.createGalleryElement(galleryElementObj));
+                }
+                return galleryElements;
+            }
+        );
+    }
+}

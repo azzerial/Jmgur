@@ -22,6 +22,7 @@
 package net.azzerial.jmgur.api;
 
 import net.azzerial.jmgur.internal.AccountRepositoryImpl;
+import net.azzerial.jmgur.internal.GalleryRepositoryImpl;
 import net.azzerial.jmgur.internal.ImageRepositoryImpl;
 import net.azzerial.jmgur.internal.entities.EntityBuilder;
 import net.azzerial.jmgur.internal.requests.Requester;
@@ -39,6 +40,7 @@ public final class Jmgur {
     private final EntityBuilder entityBuilder;
 
     public final AccountRepository ACCOUNT;
+    public final GalleryRepository GALLERY;
     public final ImageRepository IMAGE;
 
     /* Constructors */
@@ -52,6 +54,7 @@ public final class Jmgur {
 
         // api repositories
         this.ACCOUNT = new AccountRepositoryImpl(this);
+        this.GALLERY = new GalleryRepositoryImpl(this);
         this.IMAGE = new ImageRepositoryImpl(this);
     }
 
