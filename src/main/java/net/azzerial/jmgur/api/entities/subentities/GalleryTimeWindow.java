@@ -24,7 +24,7 @@ public enum GalleryTimeWindow {
     WEEK("week"),
     MONTH("month"),
     YEAR("year"),
-    ALL("all"),
+    ALL("all", true),
     UNKNOWN("unknown");
 
     private final String key;

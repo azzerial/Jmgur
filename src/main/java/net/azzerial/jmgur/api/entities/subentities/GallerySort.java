@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 public enum GallerySort {
     VIRAL("viral", true),
     TOP("top"),
-    TIME("time"),
+    TIME("time", true),
     RISING("rising"),
     UNKNOWN("unknown");
 
