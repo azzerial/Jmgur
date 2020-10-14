@@ -21,7 +21,9 @@ import org.jetbrains.annotations.Nullable;
 
 public enum AlbumLayout {
     BLOG("blog"),
+    GRID("grid"),
     HORIZONTAL("horizontal"),
+    VERTICAL("vertical"),
     UNKNOWN("unknown");
 
     private final String key;
