@@ -29,7 +29,7 @@ plugins {
     id ('io.freefair.lombok') version '4.1.6'
 }
 
-def versionObj = new Version(1, 1, 0)
+def versionObj = new Version(1, 2, 0, 'beta')
 def github = 'https://github.com/Azzerial/Jmgur'
 
 project.group = 'net.azzerial'
