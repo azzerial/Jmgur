@@ -19,7 +19,7 @@ package net.azzerial.jmgur.api.entities.subentities;
 import net.azzerial.jmgur.internal.utils.Check;
 import org.jetbrains.annotations.NotNull;
 
-public enum FileType {
+public enum UploadFileType {
     BINARY_FILE("file"),
     BASE64("base64"),
     URL("url"),
@@ -29,7 +29,7 @@ public enum FileType {
 
     /* Constructors */
 
-    FileType(@NotNull String key) {
+    UploadFileType(@NotNull String key) {
         this.key = key;
     }
 
@@ -43,11 +43,11 @@ public enum FileType {
     /* Static Methods */
 
     @NotNull
-    public static FileType fromKey(@NotNull String key) {
+    public static UploadFileType fromKey(@NotNull String key) {
         Check.notNull(key, "key");
-        for (FileType ft : values()) {
-            if (ft.key.equalsIgnoreCase(key))
-                return ft;
+        for (UploadFileType uft : values()) {
+            if (uft.key.equalsIgnoreCase(key))
+                return uft;
         }
         return UNKNOWN;
     }

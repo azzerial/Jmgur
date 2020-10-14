@@ -16,7 +16,7 @@
 
 package net.azzerial.jmgur.api.entities.dto;
 
-import net.azzerial.jmgur.api.entities.subentities.FileType;
+import net.azzerial.jmgur.api.entities.subentities.UploadFileType;
 import net.azzerial.jmgur.internal.entities.EntityBuilder;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,21 +34,21 @@ public interface ImageUploadDTO {
     /* Getters & Setters */
 
     @NotNull
-    ImageUploadDTO of(@NotNull FileType type, @NotNull Object data);
+    ImageUploadDTO of(@NotNull UploadFileType fileType, @NotNull Object data);
 
     @NotNull
     default ImageUploadDTO binaryFile(@NotNull File file) {
-        return of(FileType.BINARY_FILE, file);
+        return of(UploadFileType.BINARY_FILE, file);
     }
 
     @NotNull
     default ImageUploadDTO base64(@NotNull String base64) {
-        return of(FileType.BASE64, base64);
+        return of(UploadFileType.BASE64, base64);
     }
 
     @NotNull
     default ImageUploadDTO url(@NotNull String url) {
-        return of(FileType.URL, url);
+        return of(UploadFileType.URL, url);
     }
 
     @NotNull

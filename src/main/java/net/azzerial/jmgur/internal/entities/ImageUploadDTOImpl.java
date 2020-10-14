@@ -18,7 +18,7 @@ package net.azzerial.jmgur.internal.entities;
 
 import lombok.Getter;
 import net.azzerial.jmgur.api.entities.dto.ImageUploadDTO;
-import net.azzerial.jmgur.api.entities.subentities.FileType;
+import net.azzerial.jmgur.api.entities.subentities.UploadFileType;
 import net.azzerial.jmgur.internal.utils.Check;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,7 +33,7 @@ public final class ImageUploadDTOImpl implements ImageUploadDTO {
 
     private String data;
     private File file;
-    private FileType type;
+    private UploadFileType fileType;
     private boolean isFileVideo;
 
     /* Constructors */
@@ -42,7 +42,7 @@ public final class ImageUploadDTOImpl implements ImageUploadDTO {
         this.map = new HashMap<>();
         this.data = null;
         this.file = null;
-        this.type = null;
+        this.fileType = null;
         this.isFileVideo = false;
     }
 
@@ -50,22 +50,22 @@ public final class ImageUploadDTOImpl implements ImageUploadDTO {
 
     @NotNull
     @Override
-    public ImageUploadDTO of(@NotNull FileType type, @NotNull Object data) {
-        Check.notNull(type, "type");
-        Check.check(type != FileType.UNKNOWN, "section must not be UNKNOWN");
+    public ImageUploadDTO of(@NotNull UploadFileType fileType, @NotNull Object data) {
+        Check.notNull(fileType, "fileType");
+        Check.check(fileType != UploadFileType.UNKNOWN, "fileType must not be UNKNOWN");
         if (!(data instanceof CharSequence) && !(data instanceof File))
             throw new IllegalArgumentException("data may only be a String or a File");
-        if (data instanceof CharSequence && (type == FileType.BASE64 || type == FileType.URL)) {
+        if (data instanceof CharSequence && (fileType == UploadFileType.BASE64 || fileType == UploadFileType.URL)) {
             Check.notBlank((CharSequence) data, "data");
             this.data = ((CharSequence) data).toString();
             this.file = null;
-        } else if (data instanceof File && type == FileType.BINARY_FILE) {
+        } else if (data instanceof File && fileType == UploadFileType.BINARY_FILE) {
             Check.notNull(data, "data");
             this.data = null;
             this.file = (File) data;
         } else
             throw new IllegalArgumentException("provided data is from incorrect FileType");
-        this.type = type;
+        this.fileType = fileType;
         return this;
     }
 

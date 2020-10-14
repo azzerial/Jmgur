@@ -21,7 +21,7 @@ import net.azzerial.jmgur.api.Jmgur;
 import net.azzerial.jmgur.api.entities.Image;
 import net.azzerial.jmgur.api.entities.dto.ImageInformationDTO;
 import net.azzerial.jmgur.api.entities.dto.ImageUploadDTO;
-import net.azzerial.jmgur.api.entities.subentities.FileType;
+import net.azzerial.jmgur.api.entities.subentities.UploadFileType;
 import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import net.azzerial.jmgur.api.utils.data.DataObject;
 import net.azzerial.jmgur.internal.entities.EntityBuilder;
@@ -78,18 +78,18 @@ public class ImageRepositoryImpl implements ImageRepository {
         final ImageUploadDTOImpl impl = (ImageUploadDTOImpl) dto;
         final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
 
-        if (impl.getType() == null)
+        if (impl.getFileType() == null)
             throw new IllegalArgumentException("no image or video provided");
-        if (impl.getType() == FileType.BINARY_FILE) {
+        if (impl.getFileType() == UploadFileType.BINARY_FILE) {
             body.addFormDataPart(
                 impl.isFileVideo() ? "video" : "image",
                 impl.getFile() != null ? impl.getFile().getName() : "",
                 RequestBody.create(Objects.requireNonNull(impl.getFile()), null)
             );
         }
-        if (impl.getType() == FileType.BASE64 || impl.getType() == FileType.URL)
+        if (impl.getFileType() == UploadFileType.BASE64 || impl.getFileType() == UploadFileType.URL)
             body.addFormDataPart("image", impl.getData());
-        body.addFormDataPart("type", impl.getType().getKey());
+        body.addFormDataPart("type", impl.getFileType().getKey());
         impl.getMap().forEach(body::addFormDataPart);
 
         return new RestActionImpl<>(
