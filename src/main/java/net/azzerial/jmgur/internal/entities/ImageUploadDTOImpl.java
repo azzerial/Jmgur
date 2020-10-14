@@ -118,6 +118,6 @@ public final class ImageUploadDTOImpl implements ImageUploadDTO {
     /* Methods */
 
     public boolean isEmpty() {
-        return type == null && map.isEmpty();
+        return map.isEmpty();
     }
 }

@@ -95,7 +95,7 @@ public class ImageRepositoryImpl implements ImageRepository {
         return new RestActionImpl<>(
             api,
             Route.ImageEndpoints.POST_IMAGE.compile(),
-            impl.isEmpty() ? null : body.build(),
+            body.build(),
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataObject obj = res.getObject().getObject("data");
