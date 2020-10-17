@@ -19,7 +19,9 @@ package net.azzerial.jmgur.api;
 import net.azzerial.jmgur.api.entities.GalleryElement;
 import net.azzerial.jmgur.api.entities.dto.GalleryDTO;
 import net.azzerial.jmgur.api.entities.dto.GallerySearchDTO;
+import net.azzerial.jmgur.api.entities.dto.GalleryShareDTO;
 import net.azzerial.jmgur.api.requests.restaction.PagedRestAction;
+import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -46,4 +48,9 @@ public interface GalleryRepository {
 
     @NotNull
     PagedRestAction<List<GalleryElement>> searchGallery(@NotNull GallerySearchDTO dto);
+
+    /* Sharing */
+
+    @NotNull
+    RestAction<Boolean> shareImage(@NotNull String hash, @NotNull GalleryShareDTO dto);
 }

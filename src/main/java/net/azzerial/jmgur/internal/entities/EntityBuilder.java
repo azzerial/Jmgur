@@ -63,6 +63,10 @@ public final class EntityBuilder {
         return new GallerySearchDTOImpl();
     }
 
+    public static GalleryShareDTOImpl createGalleryShareDTO() {
+        return new GalleryShareDTOImpl();
+    }
+
     public static ImageInformationDTO createImageInformationDTO() {
         return new ImageInformationDTOImpl();
     }

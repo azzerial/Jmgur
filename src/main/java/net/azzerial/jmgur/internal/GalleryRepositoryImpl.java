@@ -21,15 +21,20 @@ import net.azzerial.jmgur.api.Jmgur;
 import net.azzerial.jmgur.api.entities.GalleryElement;
 import net.azzerial.jmgur.api.entities.dto.GalleryDTO;
 import net.azzerial.jmgur.api.entities.dto.GallerySearchDTO;
+import net.azzerial.jmgur.api.entities.dto.GalleryShareDTO;
 import net.azzerial.jmgur.api.requests.restaction.PagedRestAction;
+import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import net.azzerial.jmgur.api.utils.data.DataArray;
 import net.azzerial.jmgur.api.utils.data.DataObject;
 import net.azzerial.jmgur.internal.entities.EntityBuilder;
 import net.azzerial.jmgur.internal.entities.GalleryDTOImpl;
 import net.azzerial.jmgur.internal.entities.GallerySearchDTOImpl;
+import net.azzerial.jmgur.internal.entities.GalleryShareDTOImpl;
 import net.azzerial.jmgur.internal.requests.Route;
 import net.azzerial.jmgur.internal.requests.restaction.PagedRestActionImpl;
+import net.azzerial.jmgur.internal.requests.restaction.RestActionImpl;
 import net.azzerial.jmgur.internal.utils.Check;
+import okhttp3.MultipartBody;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -127,6 +132,33 @@ public class GalleryRepositoryImpl implements GalleryRepository {
                     galleryElements.add(builder.createGalleryElement(galleryElementObj));
                 }
                 return galleryElements;
+            }
+        );
+    }
+
+    /* Sharing */
+
+    @NotNull
+    @Override
+    public RestAction<Boolean> shareImage(@NotNull String hash, @NotNull GalleryShareDTO dto) {
+        Check.notBlank(hash, "hash");
+        Check.notNull(dto, "dto");
+        final GalleryShareDTOImpl impl = (GalleryShareDTOImpl) dto;
+        final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+        if (!impl.getMap().containsKey("title"))
+            throw new IllegalArgumentException("no title provided");
+
+        impl.getMap().forEach(body::addFormDataPart);
+
+        return new RestActionImpl<>(
+            api,
+            Route.GalleryEndpoints.POST_SHARE_IMAGE.compile(hash),
+            impl.isEmpty() ? null : body.build(),
+            (req, res) -> {
+                final DataObject obj = res.getObject();
+                System.out.println(obj);
+                return obj.getBoolean("data");
             }
         );
     }
