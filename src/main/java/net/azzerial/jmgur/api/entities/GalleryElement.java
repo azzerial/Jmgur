@@ -55,6 +55,10 @@ public interface GalleryElement {
     @NotNull
     String getUrl();
 
+    int getCommentCount();
+
+    int getFavoriteCount();
+
     int getUps();
 
     int getDowns();
