@@ -161,4 +161,28 @@ public class GalleryRepositoryImpl implements GalleryRepository {
             }
         );
     }
+
+    @NotNull
+    @Override
+    public RestAction<Boolean> shareAlbum(@NotNull String hash, @NotNull GalleryShareDTO dto) {
+        Check.notBlank(hash, "hash");
+        Check.notNull(dto, "dto");
+        final GalleryShareDTOImpl impl = (GalleryShareDTOImpl) dto;
+        final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+        if (!impl.getMap().containsKey("title"))
+            throw new IllegalArgumentException("no title provided");
+
+        impl.getMap().forEach(body::addFormDataPart);
+
+        return new RestActionImpl<>(
+            api,
+            Route.GalleryEndpoints.POST_SHARE_ALBUM.compile(hash),
+            impl.isEmpty() ? null : body.build(),
+            (req, res) -> {
+                final DataObject obj = res.getObject();
+                return obj.getBoolean("data");
+            }
+        );
+    }
 }

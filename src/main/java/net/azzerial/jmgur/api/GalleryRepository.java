@@ -53,4 +53,7 @@ public interface GalleryRepository {
 
     @NotNull
     RestAction<Boolean> shareImage(@NotNull String hash, @NotNull GalleryShareDTO dto);
+
+    @NotNull
+    RestAction<Boolean> shareAlbum(@NotNull String hash, @NotNull GalleryShareDTO dto);
 }
