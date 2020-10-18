@@ -19,6 +19,7 @@ package net.azzerial.jmgur.api;
 import net.azzerial.jmgur.api.entities.GalleryAlbum;
 import net.azzerial.jmgur.api.entities.GalleryElement;
 import net.azzerial.jmgur.api.entities.GalleryImage;
+import net.azzerial.jmgur.api.entities.Votes;
 import net.azzerial.jmgur.api.entities.dto.GalleryDTO;
 import net.azzerial.jmgur.api.entities.dto.GallerySearchDTO;
 import net.azzerial.jmgur.api.entities.dto.GalleryShareDTO;
@@ -79,4 +80,7 @@ public interface GalleryRepository {
 
     @NotNull
     RestAction<Boolean> reportGalleryElement(@NotNull String hash, @Nullable ReportReason reason);
+
+    @NotNull
+    RestAction<Votes> getGalleryElementVotes(@NotNull String hash);
 }

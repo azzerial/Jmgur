@@ -352,4 +352,13 @@ public final class EntityBuilder {
 
         return trophy;
     }
+
+    public Votes createVotes(@NotNull DataObject obj) {
+        final VotesImpl votes = new VotesImpl(api);
+
+        votes.setUps(obj.getUnsignedInt("ups", 0));
+        votes.setDowns(obj.getUnsignedInt("downs", 0));
+
+        return votes;
+    }
 }
