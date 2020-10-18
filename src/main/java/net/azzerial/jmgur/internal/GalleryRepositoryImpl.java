@@ -20,6 +20,7 @@ import net.azzerial.jmgur.api.GalleryRepository;
 import net.azzerial.jmgur.api.Jmgur;
 import net.azzerial.jmgur.api.entities.GalleryAlbum;
 import net.azzerial.jmgur.api.entities.GalleryElement;
+import net.azzerial.jmgur.api.entities.GalleryImage;
 import net.azzerial.jmgur.api.entities.dto.GalleryDTO;
 import net.azzerial.jmgur.api.entities.dto.GallerySearchDTO;
 import net.azzerial.jmgur.api.entities.dto.GalleryShareDTO;
@@ -148,6 +149,21 @@ public class GalleryRepositoryImpl implements GalleryRepository {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataObject obj = res.getObject().getObject("data");
                 return builder.createGalleryAlbum(obj);
+            }
+        );
+    }
+
+    @NotNull
+    @Override
+    public RestAction<GalleryImage> getGalleryImage(@NotNull String hash) {
+        Check.notBlank(hash, "hash");
+        return new RestActionImpl<>(
+            api,
+            Route.GalleryEndpoints.GET_GALLERY_IMAGE.compile(hash),
+            (req, res) -> {
+                final EntityBuilder builder = api.getEntityBuilder();
+                final DataObject obj = res.getObject().getObject("data");
+                return builder.createGalleryImage(obj);
             }
         );
     }
