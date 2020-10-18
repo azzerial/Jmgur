@@ -73,32 +73,32 @@ public interface GalleryRepository {
     /* Actions */
 
     @NotNull
-    default RestAction<Boolean> reportGalleryElement(@NotNull String hash) {
-        return reportGalleryElement(hash, null);
+    default RestAction<Boolean> reportGalleryPost(@NotNull String hash) {
+        return reportGalleryPost(hash, null);
     }
 
     @NotNull
-    RestAction<Boolean> reportGalleryElement(@NotNull String hash, @Nullable ReportReason reason);
+    RestAction<Boolean> reportGalleryPost(@NotNull String hash, @Nullable ReportReason reason);
 
     @NotNull
-    RestAction<Votes> getGalleryElementVotes(@NotNull String hash);
+    RestAction<Votes> getGalleryPostVotes(@NotNull String hash);
 
     @NotNull
-    RestAction<Boolean> voteForGalleryElement(@NotNull String hash, @NotNull Vote vote);
+    RestAction<Boolean> updateGalleryPostVote(@NotNull String hash, @NotNull Vote vote);
 
     /* Comments */
 
     @NotNull
-    default RestAction<List<Comment>> getGalleryElementComments(@NotNull String hash) {
-        return getGalleryElementComments(hash, CommentSort.BEST);
+    default RestAction<List<Comment>> getGalleryPostComments(@NotNull String hash) {
+        return getGalleryPostComments(hash, CommentSort.BEST);
     }
 
     @NotNull
-    RestAction<List<Comment>> getGalleryElementComments(@NotNull String hash, @NotNull CommentSort sort);
+    RestAction<List<Comment>> getGalleryPostComments(@NotNull String hash, @NotNull CommentSort sort);
 
     @NotNull
-    RestAction<Comment> getGalleryElementComment(@NotNull String hash, long id);
+    RestAction<Comment> getGalleryPostComment(@NotNull String hash, long id);
 
     @NotNull
-    RestAction<Long> postGalleryElementComment(@NotNull String hash, @NotNull String comment);
+    RestAction<Long> postCommentOnGalleryPost(@NotNull String hash, @NotNull String comment);
 }

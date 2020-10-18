@@ -95,23 +95,36 @@ public final class Route {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class GalleryEndpoints {
 
+        /* --- Resources --- */
+
         public static final Route GET_GALLERY = new Route(GET, CLIENT_ID, "3/gallery/(section)/(sort)/(time_window)/(page)");
         public static final Route GET_GALLERY_SEARCH = new Route(GET, CLIENT_ID, "3/gallery/search/(sort)/(time_window)/(page)");
         public static final Route GET_GALLERY_ALBUM = new Route(GET, CLIENT_ID, "3/gallery/album/{gallery_album_hash}");
         public static final Route GET_GALLERY_IMAGE = new Route(GET, CLIENT_ID, "3/gallery/image/{gallery_image_hash}");
+
+        /* --- Sharing --- */
+
         public static final Route POST_SHARE_IMAGE = new Route(POST, BEARER, "3/gallery/image/{image_hash}");
         public static final Route POST_SHARE_ALBUM = new Route(POST, BEARER, "3/gallery/album/{album_hash}");
         public static final Route DELETE_FROM_GALLERY = new Route(DELETE, BEARER, "3/gallery/{gallery_hash}");
+
+        /* --- Actions --- */
+
         public static final Route POST_IMAGE_REPORTING = new Route(POST, BEARER, "3/gallery/image/{gallery_hash}/report");
-        public static final Route GET_GALLERY_ELEMENT_VOTES = new Route(GET, CLIENT_ID, "3/gallery/{gallery_hash}/votes");
-        public static final Route POST_GALLERY_ELEMENT_VOTE = new Route(POST, BEARER, "3/gallery/{gallery_hash}/vote/{vote}");
-        public static final Route GET_GALLERY_ELEMENT_COMMENTS = new Route(GET, CLIENT_ID, "3/gallery/{gallery_hash}/comments/(comment_sort)");
-        public static final Route GET_GALLERY_ELEMENT_COMMENT = new Route(GET, CLIENT_ID, "3/gallery/{gallery_hash}/comment/{comment_id}");
-        public static final Route POST_GALLERY_ELEMENT_COMMENT = new Route(POST, BEARER, "3/gallery/{gallery_hash}/comment");
+        public static final Route GET_ELEMENT_VOTES = new Route(GET, CLIENT_ID, "3/gallery/{gallery_hash}/votes");
+        public static final Route POST_ELEMENT_VOTE = new Route(POST, BEARER, "3/gallery/{gallery_hash}/vote/{vote}");
+
+        /* Comments */
+
+        public static final Route GET_ELEMENT_COMMENTS = new Route(GET, CLIENT_ID, "3/gallery/{gallery_hash}/comments/(comment_sort)");
+        public static final Route GET_ELEMENT_COMMENT = new Route(GET, CLIENT_ID, "3/gallery/{gallery_hash}/comment/{comment_id}");
+        public static final Route POST_ELEMENT_COMMENT = new Route(POST, BEARER, "3/gallery/{gallery_hash}/comment");
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class ImageEndpoints {
+
+        /* --- Core --- */
 
         public static final Route GET_IMAGE = new Route(GET, CLIENT_ID, "3/image/{image_hash}");
         public static final Route POST_IMAGE = new Route(POST, BEARER, "3/upload");

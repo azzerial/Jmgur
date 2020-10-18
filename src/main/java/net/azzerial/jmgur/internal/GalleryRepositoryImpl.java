@@ -238,7 +238,7 @@ public class GalleryRepositoryImpl implements GalleryRepository {
 
     @NotNull
     @Override
-    public RestAction<Boolean> reportGalleryElement(@NotNull String hash, @Nullable ReportReason reason) {
+    public RestAction<Boolean> reportGalleryPost(@NotNull String hash, @Nullable ReportReason reason) {
         Check.notBlank(hash, "hash");
         Check.check(reason != ReportReason.UNKNOWN, "reason must not be UNKNOWN");
         final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
@@ -259,11 +259,11 @@ public class GalleryRepositoryImpl implements GalleryRepository {
 
     @NotNull
     @Override
-    public RestAction<Votes> getGalleryElementVotes(@NotNull String hash) {
+    public RestAction<Votes> getGalleryPostVotes(@NotNull String hash) {
         Check.notBlank(hash, "hash");
         return new RestActionImpl<>(
             api,
-            Route.GalleryEndpoints.GET_GALLERY_ELEMENT_VOTES.compile(hash),
+            Route.GalleryEndpoints.GET_ELEMENT_VOTES.compile(hash),
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataObject obj = res.getObject().getObject("data");
@@ -274,13 +274,13 @@ public class GalleryRepositoryImpl implements GalleryRepository {
 
     @NotNull
     @Override
-    public RestAction<Boolean> voteForGalleryElement(@NotNull String hash, @NotNull Vote vote) {
+    public RestAction<Boolean> updateGalleryPostVote(@NotNull String hash, @NotNull Vote vote) {
         Check.notBlank(hash, "hash");
         Check.notNull(vote, "vote");
         Check.check(vote != Vote.UNKNOWN, "vote must not be UNKNOWN");
         return new RestActionImpl<>(
             api,
-            Route.GalleryEndpoints.POST_GALLERY_ELEMENT_VOTE.compile(hash, vote.getKey()),
+            Route.GalleryEndpoints.POST_ELEMENT_VOTE.compile(hash, vote.getKey()),
             (req, res) -> {
                 final DataObject obj = res.getObject();
                 return obj.getBoolean("data");
@@ -292,7 +292,7 @@ public class GalleryRepositoryImpl implements GalleryRepository {
 
     @NotNull
     @Override
-    public RestAction<List<Comment>> getGalleryElementComments(@NotNull String hash, @NotNull CommentSort sort) {
+    public RestAction<List<Comment>> getGalleryPostComments(@NotNull String hash, @NotNull CommentSort sort) {
         Check.notBlank(hash, "hash");
         Check.notNull(sort, "sort");
         Check.check(sort != CommentSort.WORST, "sort must not be WORST");
@@ -301,7 +301,7 @@ public class GalleryRepositoryImpl implements GalleryRepository {
         Check.check(sort != CommentSort.UNKNOWN, "sort must not be UNKNOWN");
         return new RestActionImpl<>(
             api,
-            Route.GalleryEndpoints.GET_GALLERY_ELEMENT_COMMENTS.compile(hash, sort.getKey()),
+            Route.GalleryEndpoints.GET_ELEMENT_COMMENTS.compile(hash, sort.getKey()),
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataArray arr = res.getObject().getArray("data");
@@ -318,12 +318,12 @@ public class GalleryRepositoryImpl implements GalleryRepository {
 
     @NotNull
     @Override
-    public RestAction<Comment> getGalleryElementComment(@NotNull String hash, long id) {
+    public RestAction<Comment> getGalleryPostComment(@NotNull String hash, long id) {
         Check.notBlank(hash, "hash");
         Check.positive(id, "id");
         return new RestActionImpl<>(
             api,
-            Route.GalleryEndpoints.GET_GALLERY_ELEMENT_COMMENT.compile(hash, Long.toUnsignedString(id)),
+            Route.GalleryEndpoints.GET_ELEMENT_COMMENT.compile(hash, Long.toUnsignedString(id)),
             (req, res) -> {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataObject obj = res.getObject().getObject("data");
@@ -334,7 +334,7 @@ public class GalleryRepositoryImpl implements GalleryRepository {
 
     @NotNull
     @Override
-    public RestAction<Long> postGalleryElementComment(@NotNull String hash, @NotNull String comment) {
+    public RestAction<Long> postCommentOnGalleryPost(@NotNull String hash, @NotNull String comment) {
         Check.notBlank(hash, "hash");
         Check.notBlank(comment, "comment");
         final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
@@ -343,7 +343,7 @@ public class GalleryRepositoryImpl implements GalleryRepository {
 
         return new RestActionImpl<>(
             api,
-            Route.GalleryEndpoints.POST_GALLERY_ELEMENT_COMMENT.compile(hash),
+            Route.GalleryEndpoints.POST_ELEMENT_COMMENT.compile(hash),
             body.build(),
             (req, res) -> {
                 final DataObject obj = res.getObject().getObject("data");
