@@ -20,10 +20,12 @@ import net.azzerial.jmgur.internal.utils.Check;
 import org.jetbrains.annotations.NotNull;
 
 public enum CommentSort {
-    BEST("best"),
+    BEST("best", true),
     WORST("worst"),
     NEWEST("newest", true),
     OLDEST("oldest"),
+    TOP("top"),
+    NEW("new"),
     UNKNOWN("unknown");
 
     private final String key;

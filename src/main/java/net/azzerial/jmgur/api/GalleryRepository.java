@@ -16,13 +16,11 @@
 
 package net.azzerial.jmgur.api;
 
-import net.azzerial.jmgur.api.entities.GalleryAlbum;
-import net.azzerial.jmgur.api.entities.GalleryElement;
-import net.azzerial.jmgur.api.entities.GalleryImage;
-import net.azzerial.jmgur.api.entities.Votes;
+import net.azzerial.jmgur.api.entities.*;
 import net.azzerial.jmgur.api.entities.dto.GalleryDTO;
 import net.azzerial.jmgur.api.entities.dto.GallerySearchDTO;
 import net.azzerial.jmgur.api.entities.dto.GalleryShareDTO;
+import net.azzerial.jmgur.api.entities.subentities.CommentSort;
 import net.azzerial.jmgur.api.entities.subentities.ReportReason;
 import net.azzerial.jmgur.api.entities.subentities.Vote;
 import net.azzerial.jmgur.api.requests.restaction.PagedRestAction;
@@ -87,4 +85,14 @@ public interface GalleryRepository {
 
     @NotNull
     RestAction<Boolean> voteForGalleryElement(@NotNull String hash, @NotNull Vote vote);
+
+    /* Comments */
+
+    @NotNull
+    default RestAction<List<Comment>> getGalleryElementComments(@NotNull String hash) {
+        return getGalleryElementComments(hash, CommentSort.BEST);
+    }
+
+    @NotNull
+    RestAction<List<Comment>> getGalleryElementComments(@NotNull String hash, @NotNull CommentSort sort);
 }

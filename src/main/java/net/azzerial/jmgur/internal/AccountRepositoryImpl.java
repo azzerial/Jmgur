@@ -382,6 +382,8 @@ public final class AccountRepositoryImpl implements AccountRepository {
     public PagedRestAction<List<Comment>> getUserComments(@NotNull String name, @NotNull CommentSort sort) {
         Check.notBlank(name, "name");
         Check.notNull(sort, "sort");
+        Check.check(sort != CommentSort.TOP, "sort must not be TOP");
+        Check.check(sort != CommentSort.NEW, "sort must not be NEW");
         Check.check(sort != CommentSort.UNKNOWN, "sort must not be UNKNOWN");
         return new PagedRestActionImpl<>(
             api,
@@ -422,6 +424,8 @@ public final class AccountRepositoryImpl implements AccountRepository {
     public PagedRestAction<List<Long>> getUserCommentIds(@NotNull String name, @NotNull CommentSort sort) {
         Check.notBlank(name, "name");
         Check.notNull(sort, "sort");
+        Check.check(sort != CommentSort.TOP, "sort must not be TOP");
+        Check.check(sort != CommentSort.NEW, "sort must not be NEW");
         Check.check(sort != CommentSort.UNKNOWN, "sort must not be UNKNOWN");
         return new PagedRestActionImpl<>(
             api,

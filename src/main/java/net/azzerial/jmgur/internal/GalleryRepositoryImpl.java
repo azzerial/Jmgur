@@ -18,13 +18,11 @@ package net.azzerial.jmgur.internal;
 
 import net.azzerial.jmgur.api.GalleryRepository;
 import net.azzerial.jmgur.api.Jmgur;
-import net.azzerial.jmgur.api.entities.GalleryAlbum;
-import net.azzerial.jmgur.api.entities.GalleryElement;
-import net.azzerial.jmgur.api.entities.GalleryImage;
-import net.azzerial.jmgur.api.entities.Votes;
+import net.azzerial.jmgur.api.entities.*;
 import net.azzerial.jmgur.api.entities.dto.GalleryDTO;
 import net.azzerial.jmgur.api.entities.dto.GallerySearchDTO;
 import net.azzerial.jmgur.api.entities.dto.GalleryShareDTO;
+import net.azzerial.jmgur.api.entities.subentities.CommentSort;
 import net.azzerial.jmgur.api.entities.subentities.ReportReason;
 import net.azzerial.jmgur.api.entities.subentities.Vote;
 import net.azzerial.jmgur.api.requests.restaction.PagedRestAction;
@@ -286,6 +284,34 @@ public class GalleryRepositoryImpl implements GalleryRepository {
             (req, res) -> {
                 final DataObject obj = res.getObject();
                 return obj.getBoolean("data");
+            }
+        );
+    }
+
+    /* Comments */
+
+    @NotNull
+    @Override
+    public RestAction<List<Comment>> getGalleryElementComments(@NotNull String hash, @NotNull CommentSort sort) {
+        Check.notBlank(hash, "hash");
+        Check.notNull(sort, "sort");
+        Check.check(sort != CommentSort.WORST, "sort must not be WORST");
+        Check.check(sort != CommentSort.NEWEST, "sort must not be NEWEST");
+        Check.check(sort != CommentSort.OLDEST, "sort must not be OLDEST");
+        Check.check(sort != CommentSort.UNKNOWN, "sort must not be UNKNOWN");
+        return new RestActionImpl<>(
+            api,
+            Route.GalleryEndpoints.GET_GALLERY_ELEMENT_COMMENTS.compile(hash, sort.getKey()),
+            (req, res) -> {
+                final EntityBuilder builder = api.getEntityBuilder();
+                final DataArray arr = res.getObject().getArray("data");
+                final List<Comment> comments = new ArrayList<>();
+
+                for (int i = 0; i < arr.length(); i += 1) {
+                    final DataObject commentObj = arr.getObject(i);
+                    comments.add(builder.createComment(commentObj));
+                }
+                return comments;
             }
         );
     }
