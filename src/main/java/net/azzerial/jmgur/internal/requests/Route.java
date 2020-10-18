@@ -97,6 +97,7 @@ public final class Route {
 
         public static final Route GET_GALLERY = new Route(GET, CLIENT_ID, "3/gallery/(section)/(sort)/(time_window)/(page)");
         public static final Route GET_GALLERY_SEARCH = new Route(GET, CLIENT_ID, "3/gallery/search/(sort)/(time_window)/(page)");
+        public static final Route GET_GALLERY_ALBUM = new Route(GET, CLIENT_ID, "3/gallery/album/{gallery_hash}");
         public static final Route POST_SHARE_IMAGE = new Route(POST, BEARER, "3/gallery/image/{image_hash}");
         public static final Route POST_SHARE_ALBUM = new Route(POST, BEARER, "3/gallery/album/{album_hash}");
         public static final Route DELETE_FROM_GALLERY = new Route(DELETE, BEARER, "3/gallery/{gallery_hash}");

@@ -16,6 +16,7 @@
 
 package net.azzerial.jmgur.api;
 
+import net.azzerial.jmgur.api.entities.GalleryAlbum;
 import net.azzerial.jmgur.api.entities.GalleryElement;
 import net.azzerial.jmgur.api.entities.dto.GalleryDTO;
 import net.azzerial.jmgur.api.entities.dto.GallerySearchDTO;
@@ -48,6 +49,9 @@ public interface GalleryRepository {
 
     @NotNull
     PagedRestAction<List<GalleryElement>> searchGallery(@NotNull GallerySearchDTO dto);
+
+    @NotNull
+    RestAction<GalleryAlbum> getGalleryAlbum(@NotNull String hash);
 
     /* Sharing */
 
