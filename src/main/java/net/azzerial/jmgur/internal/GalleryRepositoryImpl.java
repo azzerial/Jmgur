@@ -157,7 +157,6 @@ public class GalleryRepositoryImpl implements GalleryRepository {
             impl.isEmpty() ? null : body.build(),
             (req, res) -> {
                 final DataObject obj = res.getObject();
-                System.out.println(obj);
                 return obj.getBoolean("data");
             }
         );
