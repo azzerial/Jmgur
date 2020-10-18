@@ -106,6 +106,7 @@ public final class Route {
         public static final Route GET_GALLERY_ELEMENT_VOTES = new Route(GET, CLIENT_ID, "3/gallery/{gallery_hash}/votes");
         public static final Route POST_GALLERY_ELEMENT_VOTE = new Route(POST, BEARER, "3/gallery/{gallery_hash}/vote/{vote}");
         public static final Route GET_GALLERY_ELEMENT_COMMENTS = new Route(GET, CLIENT_ID, "3/gallery/{gallery_hash}/comments/(comment_sort)");
+        public static final Route GET_GALLERY_ELEMENT_COMMENT = new Route(GET, CLIENT_ID, "3/gallery/{gallery_hash}/comment/{comment_id}");
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

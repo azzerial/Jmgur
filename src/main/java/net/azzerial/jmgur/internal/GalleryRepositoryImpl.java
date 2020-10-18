@@ -315,4 +315,20 @@ public class GalleryRepositoryImpl implements GalleryRepository {
             }
         );
     }
+
+    @NotNull
+    @Override
+    public RestAction<Comment> getGalleryElementComment(@NotNull String hash, long id) {
+        Check.notBlank(hash, "hash");
+        Check.positive(id, "id");
+        return new RestActionImpl<>(
+            api,
+            Route.GalleryEndpoints.GET_GALLERY_ELEMENT_COMMENT.compile(hash, Long.toUnsignedString(id)),
+            (req, res) -> {
+                final EntityBuilder builder = api.getEntityBuilder();
+                final DataObject obj = res.getObject().getObject("data");
+                return builder.createComment(obj);
+            }
+        );
+    }
 }

@@ -95,4 +95,7 @@ public interface GalleryRepository {
 
     @NotNull
     RestAction<List<Comment>> getGalleryElementComments(@NotNull String hash, @NotNull CommentSort sort);
+
+    @NotNull
+    RestAction<Comment> getGalleryElementComment(@NotNull String hash, long id);
 }
