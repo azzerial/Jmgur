@@ -104,6 +104,7 @@ public final class Route {
         public static final Route DELETE_FROM_GALLERY = new Route(DELETE, BEARER, "3/gallery/{gallery_hash}");
         public static final Route POST_IMAGE_REPORTING = new Route(POST, BEARER, "3/gallery/image/{gallery_hash}/report");
         public static final Route GET_GALLERY_ELEMENT_VOTES = new Route(GET, CLIENT_ID, "3/gallery/{gallery_hash}/votes");
+        public static final Route POST_GALLERY_ELEMENT_VOTE = new Route(POST, BEARER, "3/gallery/{gallery_hash}/vote/{vote}");
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

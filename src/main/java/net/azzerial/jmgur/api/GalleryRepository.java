@@ -24,6 +24,7 @@ import net.azzerial.jmgur.api.entities.dto.GalleryDTO;
 import net.azzerial.jmgur.api.entities.dto.GallerySearchDTO;
 import net.azzerial.jmgur.api.entities.dto.GalleryShareDTO;
 import net.azzerial.jmgur.api.entities.subentities.ReportReason;
+import net.azzerial.jmgur.api.entities.subentities.Vote;
 import net.azzerial.jmgur.api.requests.restaction.PagedRestAction;
 import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import org.jetbrains.annotations.NotNull;
@@ -83,4 +84,7 @@ public interface GalleryRepository {
 
     @NotNull
     RestAction<Votes> getGalleryElementVotes(@NotNull String hash);
+
+    @NotNull
+    RestAction<Boolean> voteForGalleryElement(@NotNull String hash, @NotNull Vote vote);
 }

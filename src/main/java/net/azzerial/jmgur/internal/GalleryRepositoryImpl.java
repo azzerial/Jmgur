@@ -26,6 +26,7 @@ import net.azzerial.jmgur.api.entities.dto.GalleryDTO;
 import net.azzerial.jmgur.api.entities.dto.GallerySearchDTO;
 import net.azzerial.jmgur.api.entities.dto.GalleryShareDTO;
 import net.azzerial.jmgur.api.entities.subentities.ReportReason;
+import net.azzerial.jmgur.api.entities.subentities.Vote;
 import net.azzerial.jmgur.api.requests.restaction.PagedRestAction;
 import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import net.azzerial.jmgur.api.utils.data.DataArray;
@@ -269,6 +270,22 @@ public class GalleryRepositoryImpl implements GalleryRepository {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataObject obj = res.getObject().getObject("data");
                 return builder.createVotes(obj);
+            }
+        );
+    }
+
+    @NotNull
+    @Override
+    public RestAction<Boolean> voteForGalleryElement(@NotNull String hash, @NotNull Vote vote) {
+        Check.notBlank(hash, "hash");
+        Check.notNull(vote, "vote");
+        Check.check(vote != Vote.UNKNOWN, "vote must not be UNKNOWN");
+        return new RestActionImpl<>(
+            api,
+            Route.GalleryEndpoints.POST_GALLERY_ELEMENT_VOTE.compile(hash, vote.getKey()),
+            (req, res) -> {
+                final DataObject obj = res.getObject();
+                return obj.getBoolean("data");
             }
         );
     }
