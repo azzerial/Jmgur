@@ -24,6 +24,7 @@ import net.azzerial.jmgur.api.entities.GalleryImage;
 import net.azzerial.jmgur.api.entities.dto.GalleryDTO;
 import net.azzerial.jmgur.api.entities.dto.GallerySearchDTO;
 import net.azzerial.jmgur.api.entities.dto.GalleryShareDTO;
+import net.azzerial.jmgur.api.entities.subentities.ReportReason;
 import net.azzerial.jmgur.api.requests.restaction.PagedRestAction;
 import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import net.azzerial.jmgur.api.utils.data.DataArray;
@@ -38,6 +39,7 @@ import net.azzerial.jmgur.internal.requests.restaction.RestActionImpl;
 import net.azzerial.jmgur.internal.utils.Check;
 import okhttp3.MultipartBody;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -227,6 +229,30 @@ public class GalleryRepositoryImpl implements GalleryRepository {
             Route.GalleryEndpoints.DELETE_FROM_GALLERY.compile(hash),
             (req, res) -> {
                 final DataObject obj = res.getObject();
+                return obj.getBoolean("data");
+            }
+        );
+    }
+
+    /* Actions */
+
+    @NotNull
+    @Override
+    public RestAction<Boolean> reportGalleryElement(@NotNull String hash, @Nullable ReportReason reason) {
+        Check.notBlank(hash, "hash");
+        Check.check(reason != ReportReason.UNKNOWN, "reason must not be UNKNOWN");
+        final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+        if (reason != null)
+            body.addFormDataPart("reason", Integer.toUnsignedString(reason.getValue()));
+
+        return new RestActionImpl<>(
+            api,
+            Route.GalleryEndpoints.POST_IMAGE_REPORTING.compile(hash),
+            reason == null ? null : body.build(),
+            (req, res) -> {
+                final DataObject obj = res.getObject();
+                System.out.println(obj);
                 return obj.getBoolean("data");
             }
         );

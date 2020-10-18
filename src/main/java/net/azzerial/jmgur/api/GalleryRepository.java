@@ -22,9 +22,11 @@ import net.azzerial.jmgur.api.entities.GalleryImage;
 import net.azzerial.jmgur.api.entities.dto.GalleryDTO;
 import net.azzerial.jmgur.api.entities.dto.GallerySearchDTO;
 import net.azzerial.jmgur.api.entities.dto.GalleryShareDTO;
+import net.azzerial.jmgur.api.entities.subentities.ReportReason;
 import net.azzerial.jmgur.api.requests.restaction.PagedRestAction;
 import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -67,4 +69,14 @@ public interface GalleryRepository {
 
     @NotNull
     RestAction<Boolean> removeFromGallery(@NotNull String hash);
+
+    /* Actions */
+
+    @NotNull
+    default RestAction<Boolean> reportGalleryElement(@NotNull String hash) {
+        return reportGalleryElement(hash, null);
+    }
+
+    @NotNull
+    RestAction<Boolean> reportGalleryElement(@NotNull String hash, @Nullable ReportReason reason);
 }

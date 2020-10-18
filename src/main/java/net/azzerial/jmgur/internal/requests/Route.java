@@ -102,6 +102,7 @@ public final class Route {
         public static final Route POST_SHARE_IMAGE = new Route(POST, BEARER, "3/gallery/image/{image_hash}");
         public static final Route POST_SHARE_ALBUM = new Route(POST, BEARER, "3/gallery/album/{album_hash}");
         public static final Route DELETE_FROM_GALLERY = new Route(DELETE, BEARER, "3/gallery/{gallery_hash}");
+        public static final Route POST_IMAGE_REPORTING = new Route(POST, BEARER, "3/gallery/image/{gallery_hash}/report");
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
