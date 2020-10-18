@@ -56,4 +56,7 @@ public interface GalleryRepository {
 
     @NotNull
     RestAction<Boolean> shareAlbum(@NotNull String hash, @NotNull GalleryShareDTO dto);
+
+    @NotNull
+    RestAction<Boolean> removeFromGallery(@NotNull String hash);
 }

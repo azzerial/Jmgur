@@ -185,4 +185,18 @@ public class GalleryRepositoryImpl implements GalleryRepository {
             }
         );
     }
+
+    @NotNull
+    @Override
+    public RestAction<Boolean> removeFromGallery(@NotNull String hash) {
+        Check.notBlank(hash, "hash");
+        return new RestActionImpl<>(
+            api,
+            Route.GalleryEndpoints.DELETE_FROM_GALLERY.compile(hash),
+            (req, res) -> {
+                final DataObject obj = res.getObject();
+                return obj.getBoolean("data");
+            }
+        );
+    }
 }
