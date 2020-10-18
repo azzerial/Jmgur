@@ -174,7 +174,7 @@ Jmgur api = ...;
 api.ACCOUNT // Account repository
 api.COMMENT // Comment repository        NOT AVAILABLE YET
 api.ALBUM   // Album repository          NOT AVAILABLE YET
-api.GALLERY // Gallery repository        NOT AVAILABLE YET
+api.GALLERY // Gallery repository
 api.IMAGE   // Image repository
 ```
 
