@@ -28,7 +28,7 @@ import static net.azzerial.jmgur.internal.utils.Helper.print;
 @Setter
 public final class AccountSettingsImpl implements AccountSettings {
 
-    private final Jmgur api;
+    private final transient Jmgur api;
 
     private String accountUrl;
     private String email;

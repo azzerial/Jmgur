@@ -19,7 +19,9 @@ package net.azzerial.jmgur.api.entities;
 import net.azzerial.jmgur.api.Jmgur;
 import org.jetbrains.annotations.NotNull;
 
-public interface Votes {
+import java.io.Serializable;
+
+public interface Votes extends Serializable {
 
     @NotNull
     Jmgur getApi();

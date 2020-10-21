@@ -19,7 +19,9 @@ package net.azzerial.jmgur.api.entities;
 import net.azzerial.jmgur.api.Jmgur;
 import org.jetbrains.annotations.NotNull;
 
-public interface Avatar {
+import java.io.Serializable;
+
+public interface Avatar extends Serializable {
 
     @NotNull
     Jmgur getApi();

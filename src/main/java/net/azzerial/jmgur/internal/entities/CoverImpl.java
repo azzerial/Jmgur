@@ -26,7 +26,7 @@ import static net.azzerial.jmgur.internal.utils.Helper.print;
 @Setter
 public final class CoverImpl implements Cover {
 
-    private final Jmgur api;
+    private final transient Jmgur api;
 
     private String name;
     private String url;

@@ -21,9 +21,10 @@ import net.azzerial.jmgur.api.entities.subentities.Vote;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 
-public interface GalleryElement {
+public interface GalleryElement extends Serializable {
 
     @NotNull
     Jmgur getApi();

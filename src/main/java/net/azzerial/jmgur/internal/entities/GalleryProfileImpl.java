@@ -27,7 +27,7 @@ import java.util.List;
 @Setter
 public final class GalleryProfileImpl implements GalleryProfile {
 
-    private final Jmgur api;
+    private final transient Jmgur api;
 
     private List<Trophy> trophies;
     private int totalGalleryComments;

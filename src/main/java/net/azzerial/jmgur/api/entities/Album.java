@@ -22,10 +22,11 @@ import net.azzerial.jmgur.api.entities.subentities.AlbumPrivacy;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-public interface Album {
+public interface Album extends Serializable {
 
     @NotNull
     Jmgur getApi();

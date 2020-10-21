@@ -30,7 +30,7 @@ import static net.azzerial.jmgur.internal.utils.Helper.print;
 @Setter
 public final class GalleryImageImpl implements GalleryImage {
 
-    private final Jmgur api;
+    private final transient Jmgur api;
 
     private String id;
     private String title;

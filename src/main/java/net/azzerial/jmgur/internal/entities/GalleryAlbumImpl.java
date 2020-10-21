@@ -34,7 +34,7 @@ import static net.azzerial.jmgur.internal.utils.Helper.print;
 @Setter
 public final class GalleryAlbumImpl implements GalleryAlbum {
 
-    private final Jmgur api;
+    private final transient Jmgur api;
 
     private String id;
     private String title;

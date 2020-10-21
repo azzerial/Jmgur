@@ -33,7 +33,7 @@ import static net.azzerial.jmgur.internal.utils.Helper.print;
 @Setter
 public final class AlbumImpl implements Album {
 
-    private final Jmgur api;
+    private final transient Jmgur api;
 
     private String id;
     private String title;

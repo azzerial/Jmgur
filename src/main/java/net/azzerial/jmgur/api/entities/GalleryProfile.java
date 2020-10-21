@@ -19,9 +19,10 @@ package net.azzerial.jmgur.api.entities;
 import net.azzerial.jmgur.api.Jmgur;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface GalleryProfile {
+public interface GalleryProfile extends Serializable {
 
     @NotNull
     Jmgur getApi();

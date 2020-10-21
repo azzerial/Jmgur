@@ -30,7 +30,7 @@ import static net.azzerial.jmgur.internal.utils.Helper.print;
 @Setter
 public final class CommentImpl implements Comment {
 
-    private final Jmgur api;
+    private final transient Jmgur api;
 
     private long id;
     private String imageId;

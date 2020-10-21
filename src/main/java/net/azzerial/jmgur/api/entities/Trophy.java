@@ -20,9 +20,10 @@ import net.azzerial.jmgur.api.Jmgur;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 
-public interface Trophy {
+public interface Trophy extends Serializable {
 
     @NotNull
     Jmgur getApi();

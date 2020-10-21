@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 @Setter
 public final class VotesImpl implements Votes {
 
-    private final Jmgur api;
+    private final transient Jmgur api;
 
     private int ups;
     private int downs;

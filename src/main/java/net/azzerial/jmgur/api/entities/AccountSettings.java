@@ -21,7 +21,9 @@ import net.azzerial.jmgur.api.entities.subentities.AlbumPrivacy;
 import net.azzerial.jmgur.api.entities.subentities.ImagePrivacy;
 import org.jetbrains.annotations.NotNull;
 
-public interface AccountSettings {
+import java.io.Serializable;
+
+public interface AccountSettings extends Serializable {
 
     @NotNull
     Jmgur getApi();
