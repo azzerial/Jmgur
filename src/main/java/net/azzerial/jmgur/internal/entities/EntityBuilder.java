@@ -98,15 +98,15 @@ public final class EntityBuilder {
             obj.getString("cover")
         );
 
-        account.setId(obj.getUnsignedLong("id"));
-        account.setUrl(obj.getString("url"));
+        account.setId(obj.getUnsignedLong("id", 0L));
+        account.setUrl(obj.getString("url", null));
         account.setBio(obj.getString("bio", null));
         account.setAvatar(avatar);
         account.setCover(cover);
-        account.setReputation(obj.getInt("reputation"));
-        account.setReputationName(obj.getString("reputation_name"));
-        account.setCreated(fromEpochSecond(obj.getUnsignedLong("created")));
-        account.setBlocked(obj.getBoolean("is_blocked"));
+        account.setReputation(obj.getInt("reputation", 0));
+        account.setReputationName(obj.getString("reputation_name", null));
+        account.setCreated(fromEpochSecond(obj.getUnsignedLong("created", 0L)));
+        account.setBlocked(obj.getBoolean("is_blocked", false));
 
         return account;
     }
@@ -114,16 +114,16 @@ public final class EntityBuilder {
     public AccountSettings createAccountSettings(@NotNull DataObject obj) {
         final AccountSettingsImpl accountSettings = new AccountSettingsImpl(api);
 
-        accountSettings.setAccountUrl(obj.getString("account_url"));
-        accountSettings.setEmail(obj.getString("email"));
-        accountSettings.setAvatar(obj.getString("avatar"));
-        accountSettings.setCover(obj.getString("cover"));
-        accountSettings.setPublicImages(ImagePrivacy.fromKey(obj.getBoolean("public_images")));
-        accountSettings.setAlbumPrivacy(AlbumPrivacy.fromKey(obj.getString("album_privacy")));
-        accountSettings.setAcceptedGalleryTerms(obj.getBoolean("accepted_gallery_terms"));
-        accountSettings.setMessagingEnabled(obj.getBoolean("messaging_enabled"));
-        accountSettings.setShowMature(obj.getBoolean("show_mature"));
-        accountSettings.setNewsletterSubscribed(obj.getBoolean("newsletter_subscribed"));
+        accountSettings.setAccountUrl(obj.getString("account_url", null));
+        accountSettings.setEmail(obj.getString("email", null));
+        accountSettings.setAvatar(obj.getString("avatar", null));
+        accountSettings.setCover(obj.getString("cover", null));
+        accountSettings.setPublicImages(ImagePrivacy.fromKey(obj.getBoolean("public_images", false)));
+        accountSettings.setAlbumPrivacy(AlbumPrivacy.fromKey(obj.getString("album_privacy", null)));
+        accountSettings.setAcceptedGalleryTerms(obj.getBoolean("accepted_gallery_terms", false));
+        accountSettings.setMessagingEnabled(obj.getBoolean("messaging_enabled", false));
+        accountSettings.setShowMature(obj.getBoolean("show_mature", false));
+        accountSettings.setNewsletterSubscribed(obj.getBoolean("newsletter_subscribed", false));
 
         return accountSettings;
     }
@@ -140,26 +140,26 @@ public final class EntityBuilder {
             }
         }
 
-        album.setId(obj.getString("id"));
+        album.setId(obj.getString("id", null));
         album.setTitle(obj.getString("title", null));
         album.setDescription(obj.getString("description", null));
-        album.setDatetime(fromEpochSecond(obj.getUnsignedLong("datetime")));
-        album.setCover(obj.getString("cover"));
+        album.setDatetime(fromEpochSecond(obj.getUnsignedLong("datetime", 0L)));
+        album.setCover(obj.getString("cover", null));
         album.setCoverEdited(obj.getUnsignedInt("cover_edited", 0));
         album.setCoverWidth(obj.getUnsignedInt("cover_width", 0));
         album.setCoverHeight(obj.getUnsignedInt("cover_height", 0));
         album.setAccountUrl(obj.getString("account_url", null));
         album.setAccountId(obj.getUnsignedLong("account_id", 0L));
-        album.setPrivacy(AlbumPrivacy.fromKey(obj.getString("privacy")));
-        album.setLayout(AlbumLayout.fromKey(obj.getString("layout")));
-        album.setViews(obj.getUnsignedInt("views"));
-        album.setLink(obj.getString("link"));
-        album.setFavorite(obj.getBoolean("favorite"));
-        album.setNsfw(obj.getBoolean("nsfw"));
+        album.setPrivacy(AlbumPrivacy.fromKey(obj.getString("privacy", null)));
+        album.setLayout(AlbumLayout.fromKey(obj.getString("layout", null)));
+        album.setViews(obj.getUnsignedInt("views", 0));
+        album.setLink(obj.getString("link", null));
+        album.setFavorite(obj.getBoolean("favorite", false));
+        album.setNsfw(obj.getBoolean("nsfw", false));
         album.setSection(obj.getString("section", null));
-        album.setImagesCount(obj.getUnsignedInt("images_count"));
-        album.setInGallery(obj.getBoolean("in_gallery"));
-        album.setAlbum(obj.getBoolean("is_album"));
+        album.setImagesCount(obj.getUnsignedInt("images_count", 0));
+        album.setInGallery(obj.getBoolean("in_gallery", false));
+        album.setAlbum(obj.getBoolean("is_album", false));
         album.setDeleteHash(obj.getString("deletehash", null));
         album.setImages(images);
 
@@ -169,19 +169,19 @@ public final class EntityBuilder {
     public Comment createComment(@NotNull DataObject obj) {
         final CommentImpl comment = new CommentImpl(api);
 
-        comment.setId(obj.getUnsignedLong("id"));
-        comment.setImageId(obj.getString("image_id"));
-        comment.setComment(obj.getString("comment"));
-        comment.setAuthor(obj.getString("author"));
-        comment.setAuthorId(obj.getUnsignedLong("author_id"));
-        comment.setOnAlbum(obj.getBoolean("on_album"));
+        comment.setId(obj.getUnsignedLong("id", 0L));
+        comment.setImageId(obj.getString("image_id", null));
+        comment.setComment(obj.getString("comment", null));
+        comment.setAuthor(obj.getString("author", null));
+        comment.setAuthorId(obj.getUnsignedLong("author_id", 0L));
+        comment.setOnAlbum(obj.getBoolean("on_album", false));
         comment.setAlbumCover(obj.getString("album_cover", null));
-        comment.setUps(obj.getUnsignedInt("ups"));
-        comment.setDowns(obj.getUnsignedInt("downs"));
-        comment.setPoints(obj.getInt("points"));
-        comment.setDatetime(fromEpochSecond(obj.getUnsignedLong("datetime")));
-        comment.setParentId(obj.getUnsignedLong("parent_id"));
-        comment.setDeleted(obj.getBoolean("deleted"));
+        comment.setUps(obj.getUnsignedInt("ups", 0));
+        comment.setDowns(obj.getUnsignedInt("downs", 0));
+        comment.setPoints(obj.getInt("points", 0));
+        comment.setDatetime(fromEpochSecond(obj.getUnsignedLong("datetime", 0L)));
+        comment.setParentId(obj.getUnsignedLong("parent_id", 0L));
+        comment.setDeleted(obj.getBoolean("deleted", false));
         comment.setVote(Vote.fromKey(obj.getString("vote", null)));
 
         return comment;
@@ -208,32 +208,32 @@ public final class EntityBuilder {
             }
         }
 
-        galleryAlbum.setId(obj.getString("id"));
+        galleryAlbum.setId(obj.getString("id", null));
         galleryAlbum.setTitle(obj.getString("title", null));
         galleryAlbum.setDescription(obj.getString("description", null));
-        galleryAlbum.setDatetime(fromEpochSecond(obj.getUnsignedLong("datetime")));
-        galleryAlbum.setCover(obj.getString("cover"));
+        galleryAlbum.setDatetime(fromEpochSecond(obj.getUnsignedLong("datetime", 0L)));
+        galleryAlbum.setCover(obj.getString("cover", null));
         galleryAlbum.setCoverWidth(obj.getUnsignedInt("cover_width", 0));
         galleryAlbum.setCoverHeight(obj.getUnsignedInt("cover_height", 0));
         galleryAlbum.setAccountUrl(obj.getString("account_url", null));
         galleryAlbum.setAccountId(obj.getUnsignedLong("account_id", 0L));
         galleryAlbum.setPrivacy(AlbumPrivacy.fromKey(obj.getString("privacy", null)));
         galleryAlbum.setLayout(AlbumLayout.fromKey(obj.getString("layout", null)));
-        galleryAlbum.setViews(obj.getUnsignedInt("views"));
-        galleryAlbum.setLink(obj.getString("link"));
-        galleryAlbum.setUps(obj.getUnsignedInt("ups"));
-        galleryAlbum.setDowns(obj.getUnsignedInt("downs"));
-        galleryAlbum.setPoints(obj.getUnsignedInt("points"));
+        galleryAlbum.setViews(obj.getUnsignedInt("views", 0));
+        galleryAlbum.setLink(obj.getString("link", null));
+        galleryAlbum.setUps(obj.getUnsignedInt("ups", 0));
+        galleryAlbum.setDowns(obj.getUnsignedInt("downs", 0));
+        galleryAlbum.setPoints(obj.getUnsignedInt("points", 0));
         galleryAlbum.setScore(obj.getUnsignedInt("score", 0));
-        galleryAlbum.setAlbum(obj.getBoolean("is_album"));
+        galleryAlbum.setAlbum(obj.getBoolean("is_album", false));
         galleryAlbum.setVote(Vote.fromKey(obj.getString("vote", null)));
-        galleryAlbum.setFavorite(obj.getBoolean("favorite"));
-        galleryAlbum.setNsfw(obj.getBoolean("nsfw"));
+        galleryAlbum.setFavorite(obj.getBoolean("favorite", false));
+        galleryAlbum.setNsfw(obj.getBoolean("nsfw", false));
         galleryAlbum.setSection(obj.getString("section", null));
-        galleryAlbum.setCommentCount(obj.getUnsignedInt("comment_count"));
-        galleryAlbum.setFavoriteCount(obj.getUnsignedInt("favorite_count"));
-        galleryAlbum.setImagesCount(obj.getUnsignedInt("images_count"));
-        galleryAlbum.setInGallery(obj.getBoolean("in_gallery"));
+        galleryAlbum.setCommentCount(obj.getUnsignedInt("comment_count", 0));
+        galleryAlbum.setFavoriteCount(obj.getUnsignedInt("favorite_count", 0));
+        galleryAlbum.setImagesCount(obj.getUnsignedInt("images_count", 0));
+        galleryAlbum.setInGallery(obj.getBoolean("in_gallery", false));
         galleryAlbum.setInMostViral(obj.isType("in_most_viral", DataType.INT) ? obj.getUnsignedInt("in_most_viral") == 1 : obj.getBoolean("in_most_viral"));
         galleryAlbum.setImages(galleryImages);
 
@@ -249,27 +249,27 @@ public final class EntityBuilder {
     public GalleryImage createGalleryImage(@NotNull DataObject obj) {
         final GalleryImageImpl galleryImage = new GalleryImageImpl(api);
 
-        galleryImage.setId(obj.getString("id"));
+        galleryImage.setId(obj.getString("id", null));
         galleryImage.setTitle(obj.getString("title", null));
         galleryImage.setDescription(obj.getString("description", null));
-        galleryImage.setDatetime(fromEpochSecond(obj.getUnsignedLong("datetime")));
-        galleryImage.setType(obj.getString("type"));
-        galleryImage.setAnimated(obj.getBoolean("animated"));
-        galleryImage.setWidth(obj.getUnsignedInt("width"));
-        galleryImage.setHeight(obj.getUnsignedInt("height"));
-        galleryImage.setSize(obj.getUnsignedInt("size"));
-        galleryImage.setViews(obj.getUnsignedInt("views"));
+        galleryImage.setDatetime(fromEpochSecond(obj.getUnsignedLong("datetime", 0L)));
+        galleryImage.setType(obj.getString("type", null));
+        galleryImage.setAnimated(obj.getBoolean("animated", false));
+        galleryImage.setWidth(obj.getUnsignedInt("width", 0));
+        galleryImage.setHeight(obj.getUnsignedInt("height", 0));
+        galleryImage.setSize(obj.getUnsignedInt("size", 0));
+        galleryImage.setViews(obj.getUnsignedInt("views", 0));
         galleryImage.setBandwidth(obj.getUnsignedInt("bandwidth", 0));
         galleryImage.setVote(Vote.fromKey(obj.getString("vote", null)));
-        galleryImage.setFavorite(obj.getBoolean("favorite"));
-        galleryImage.setNsfw(obj.getBoolean("nsfw"));
+        galleryImage.setFavorite(obj.getBoolean("favorite", false));
+        galleryImage.setNsfw(obj.getBoolean("nsfw", false));
         galleryImage.setSection(obj.getString("section", null));
         galleryImage.setAccountUrl(obj.getString("account_url", null));
         galleryImage.setAccountId(obj.getUnsignedLong("account_id", 0L));
         galleryImage.setInMostViral(obj.isType("in_most_viral", DataType.INT) ? obj.getUnsignedInt("in_most_viral") == 1 : obj.getBoolean("in_most_viral"));
-        galleryImage.setHasSound(obj.getBoolean("has_sound"));
+        galleryImage.setHasSound(obj.getBoolean("has_sound", false));
         galleryImage.setEdited(obj.getUnsignedInt("edited", 0));
-        galleryImage.setInGallery(obj.getBoolean("in_gallery"));
+        galleryImage.setInGallery(obj.getBoolean("in_gallery", false));
         galleryImage.setLink(obj.getString("link", null));
         galleryImage.setMp4(obj.getString("mp4", null));
         galleryImage.setGifv(obj.getString("gifv", null));
@@ -282,7 +282,7 @@ public final class EntityBuilder {
         galleryImage.setDowns(obj.getUnsignedInt("downs", 0));
         galleryImage.setPoints(obj.getUnsignedInt("points", 0));
         galleryImage.setScore(obj.getUnsignedInt("score", 0));
-        galleryImage.setAlbum(obj.getBoolean("is_album"));
+        galleryImage.setAlbum(obj.getBoolean("is_album", false));
 
         return galleryImage;
     }
@@ -298,9 +298,9 @@ public final class EntityBuilder {
         }
 
         galleryProfile.setTrophies(trophies);
-        galleryProfile.setTotalGalleryComments(obj.getUnsignedInt("total_gallery_comments"));
-        galleryProfile.setTotalGalleryFavorites(obj.getUnsignedInt("total_gallery_favorites"));
-        galleryProfile.setTotalGallerySubmissions(obj.getUnsignedInt("total_gallery_submissions"));
+        galleryProfile.setTotalGalleryComments(obj.getUnsignedInt("total_gallery_comments", 0));
+        galleryProfile.setTotalGalleryFavorites(obj.getUnsignedInt("total_gallery_favorites", 0));
+        galleryProfile.setTotalGallerySubmissions(obj.getUnsignedInt("total_gallery_submissions", 0));
 
         return galleryProfile;
     }
@@ -308,30 +308,30 @@ public final class EntityBuilder {
     public Image createImage(@NotNull DataObject obj) {
         final ImageImpl image = new ImageImpl(api);
 
-        image.setId(obj.getString("id"));
+        image.setId(obj.getString("id", null));
         image.setTitle(obj.getString("title", null));
         image.setDescription(obj.getString("description", null));
-        image.setDatetime(fromEpochSecond(obj.getUnsignedLong("datetime")));
-        image.setType(obj.getString("type"));
-        image.setAnimated(obj.getBoolean("animated"));
-        image.setWidth(obj.getUnsignedInt("width"));
-        image.setHeight(obj.getUnsignedInt("height"));
-        image.setSize(obj.getUnsignedInt("size"));
-        image.setViews(obj.getUnsignedInt("views"));
-        image.setBandwidth(obj.getUnsignedInt("bandwidth"));
+        image.setDatetime(fromEpochSecond(obj.getUnsignedLong("datetime", 0L)));
+        image.setType(obj.getString("type", null));
+        image.setAnimated(obj.getBoolean("animated", false));
+        image.setWidth(obj.getUnsignedInt("width", 0));
+        image.setHeight(obj.getUnsignedInt("height", 0));
+        image.setSize(obj.getUnsignedInt("size", 0));
+        image.setViews(obj.getUnsignedInt("views", 0));
+        image.setBandwidth(obj.getUnsignedInt("bandwidth", 0));
         image.setVote(Vote.fromKey(obj.getString("vote", null)));
-        image.setFavorite(obj.getBoolean("favorite"));
-        image.setNsfw(obj.getBoolean("nsfw"));
+        image.setFavorite(obj.getBoolean("favorite", false));
+        image.setNsfw(obj.getBoolean("nsfw", false));
         image.setSection(obj.getString("section", null));
         image.setAccountUrl(obj.getString("account_url", null));
         image.setAccountId(obj.getUnsignedLong("account_id", 0L));
-        image.setInMostViral(obj.getBoolean("in_most_viral"));
-        image.setHasSound(obj.getBoolean("has_sound"));
+        image.setInMostViral(obj.getBoolean("in_most_viral", false));
+        image.setHasSound(obj.getBoolean("has_sound", false));
         image.setEdited(obj.getUnsignedInt("edited", 0));
-        image.setInGallery(obj.getBoolean("in_gallery"));
+        image.setInGallery(obj.getBoolean("in_gallery", false));
         image.setDeleteHash(obj.getString("deletehash", null));
         image.setName(obj.getString("name", null));
-        image.setLink(obj.getString("link"));
+        image.setLink(obj.getString("link", null));
 
         return image;
     }
@@ -339,16 +339,16 @@ public final class EntityBuilder {
     public Trophy createTrophy(@NotNull DataObject obj) {
         final TrophyImpl trophy = new TrophyImpl(api);
 
-        trophy.setId(obj.getUnsignedLong("id"));
-        trophy.setName(obj.getString("name"));
-        trophy.setNameClean(obj.getString("name_clean"));
-        trophy.setDescription(obj.getString("description"));
+        trophy.setId(obj.getUnsignedLong("id", 0L));
+        trophy.setName(obj.getString("name", null));
+        trophy.setNameClean(obj.getString("name_clean", null));
+        trophy.setDescription(obj.getString("description", null));
         trophy.setData(obj.getString("data", null));
         trophy.setDataLink(obj.getString("data_link", null));
-        trophy.setDatetime(fromEpochSecond(obj.getLong("datetime")));
-        trophy.setImage(obj.getString("image"));
-        trophy.setImageWidth(obj.getUnsignedInt("image_width"));
-        trophy.setImageHeight(obj.getUnsignedInt("image_height"));
+        trophy.setDatetime(fromEpochSecond(obj.getLong("datetime", 0L)));
+        trophy.setImage(obj.getString("image", null));
+        trophy.setImageWidth(obj.getUnsignedInt("image_width", 0));
+        trophy.setImageHeight(obj.getUnsignedInt("image_height", 0));
 
         return trophy;
     }
