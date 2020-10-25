@@ -53,5 +53,8 @@ public interface AlbumRepository {
     RestAction<Boolean> favoriteAlbum(@NotNull String hash);
 
     @NotNull
-    RestAction<Boolean> setAlbumImages(@NotNull String hash, @NotNull List<String> hashes);
+    RestAction<Boolean> setAlbumImages(@NotNull String albumHash, @NotNull List<String> imagesHash);
+
+    @NotNull
+    RestAction<Boolean> addAlbumImages(@NotNull String albumHash, @NotNull List<String> imagesHash);
 }

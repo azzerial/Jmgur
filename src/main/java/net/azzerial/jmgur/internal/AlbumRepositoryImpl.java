@@ -182,18 +182,39 @@ public class AlbumRepositoryImpl implements AlbumRepository {
 
     @NotNull
     @Override
-    public RestAction<Boolean> setAlbumImages(@NotNull String hash, @NotNull List<String> hashes) {
-        Check.notBlank(hash, "hash");
-        Check.noneBlank(hashes, "hashes");
+    public RestAction<Boolean> setAlbumImages(@NotNull String albumHash, @NotNull List<String> imagesHash) {
+        Check.notBlank(albumHash, "albumHash");
+        Check.noneBlank(imagesHash, "imagesHash");
         final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
 
-        if (!hashes.isEmpty())
-            body.addFormDataPart("ids", String.join(",", hashes));
+        if (!imagesHash.isEmpty())
+            body.addFormDataPart("ids", String.join(",", imagesHash));
 
         return new RestActionImpl<>(
             api,
-            Route.AlbumEndpoints.POST_ALBUM_IMAGES.compile(hash),
-            hashes.isEmpty() ? null : body.build(),
+            Route.AlbumEndpoints.POST_ALBUM_IMAGES_SET.compile(albumHash),
+            imagesHash.isEmpty() ? null : body.build(),
+            (req, res) -> {
+                final DataObject obj = res.getObject();
+                return obj.getBoolean("data");
+            }
+        );
+    }
+
+    @NotNull
+    @Override
+    public RestAction<Boolean> addAlbumImages(@NotNull String albumHash, @NotNull List<String> imagesHash) {
+        Check.notBlank(albumHash, "albumHash");
+        Check.noneBlank(imagesHash, "imagesHash");
+        final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+        if (!imagesHash.isEmpty())
+            body.addFormDataPart("ids", String.join(",", imagesHash));
+
+        return new RestActionImpl<>(
+            api,
+            Route.AlbumEndpoints.POST_ALBUM_IMAGES_ADD.compile(albumHash),
+            imagesHash.isEmpty() ? null : body.build(),
             (req, res) -> {
                 final DataObject obj = res.getObject();
                 return obj.getBoolean("data");
