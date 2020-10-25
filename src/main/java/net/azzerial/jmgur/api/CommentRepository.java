@@ -44,4 +44,12 @@ public interface CommentRepository {
 
     @NotNull
     RestAction<Comment> getCommentWithReplies(long id);
+
+    @NotNull
+    default RestAction<Long> replyToComment(@NotNull String hash, long id, @NotNull String content) {
+        return postComment(CommentInformationDTO.create().setPostHash(hash).setParentId(id).setContent(content));
+    }
+
+    @NotNull
+    RestAction<Long> replyToComment(@NotNull CommentInformationDTO dto);
 }
