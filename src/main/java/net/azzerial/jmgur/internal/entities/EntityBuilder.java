@@ -19,6 +19,7 @@ package net.azzerial.jmgur.internal.entities;
 import net.azzerial.jmgur.api.Jmgur;
 import net.azzerial.jmgur.api.entities.*;
 import net.azzerial.jmgur.api.entities.dto.AlbumInformationDTO;
+import net.azzerial.jmgur.api.entities.dto.CommentInformationDTO;
 import net.azzerial.jmgur.api.entities.dto.ImageInformationDTO;
 import net.azzerial.jmgur.api.entities.subentities.AlbumLayout;
 import net.azzerial.jmgur.api.entities.subentities.AlbumPrivacy;
@@ -58,6 +59,10 @@ public final class EntityBuilder {
 
     public static AlbumInformationDTO createAlbumInformationDTO() {
         return new AlbumInformationDTOImpl();
+    }
+
+    public static CommentInformationDTO createCommentInformationDTO() {
+        return new CommentInformationDTOImpl();
     }
 
     public static GalleryDTOImpl createGalleryDTO() {

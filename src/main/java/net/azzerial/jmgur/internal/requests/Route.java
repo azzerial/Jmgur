@@ -115,6 +115,7 @@ public final class Route {
         /* --- Core --- */
 
         public static final Route GET_COMMENT = new Route(GET, CLIENT_ID, "3/comment/{comment_id}");
+        public static final Route POST_COMMENT_CREATION = new Route(POST, BEARER, "3/comment");
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

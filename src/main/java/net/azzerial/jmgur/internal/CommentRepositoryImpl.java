@@ -19,12 +19,15 @@ package net.azzerial.jmgur.internal;
 import net.azzerial.jmgur.api.CommentRepository;
 import net.azzerial.jmgur.api.Jmgur;
 import net.azzerial.jmgur.api.entities.Comment;
+import net.azzerial.jmgur.api.entities.dto.CommentInformationDTO;
 import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import net.azzerial.jmgur.api.utils.data.DataObject;
+import net.azzerial.jmgur.internal.entities.CommentInformationDTOImpl;
 import net.azzerial.jmgur.internal.entities.EntityBuilder;
 import net.azzerial.jmgur.internal.requests.Route;
 import net.azzerial.jmgur.internal.requests.restaction.RestActionImpl;
 import net.azzerial.jmgur.internal.utils.Check;
+import okhttp3.MultipartBody;
 import org.jetbrains.annotations.NotNull;
 
 public class CommentRepositoryImpl implements CommentRepository {
@@ -58,6 +61,31 @@ public class CommentRepositoryImpl implements CommentRepository {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataObject obj = res.getObject().getObject("data");
                 return builder.createComment(obj);
+            }
+        );
+    }
+
+    @NotNull
+    @Override
+    public RestAction<Long> postComment(@NotNull CommentInformationDTO dto) {
+        Check.notNull(dto, "dto");
+        final CommentInformationDTOImpl impl = (CommentInformationDTOImpl) dto;
+        final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+        if (!impl.getMap().containsKey("image_id"))
+            throw new IllegalArgumentException("no post hash provided");
+        if (!impl.getMap().containsKey("comment"))
+            throw new IllegalArgumentException("no content provided");
+
+        impl.getMap().forEach(body::addFormDataPart);
+
+        return new RestActionImpl<>(
+            api,
+            Route.CommentEndpoints.POST_COMMENT_CREATION.compile(),
+            impl.isEmpty() ? null : body.build(),
+            (req, res) -> {
+                final DataObject obj = res.getObject().getObject("data");
+                return obj.getUnsignedLong("id", 0L);
             }
         );
     }

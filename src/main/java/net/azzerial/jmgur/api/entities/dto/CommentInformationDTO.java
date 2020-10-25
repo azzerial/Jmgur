@@ -14,23 +14,28 @@
  * limitations under the License.
  */
 
-package net.azzerial.jmgur.api;
+package net.azzerial.jmgur.api.entities.dto;
 
-import net.azzerial.jmgur.api.entities.Comment;
-import net.azzerial.jmgur.api.entities.dto.CommentInformationDTO;
-import net.azzerial.jmgur.api.requests.restaction.RestAction;
+import net.azzerial.jmgur.internal.entities.EntityBuilder;
 import org.jetbrains.annotations.NotNull;
 
-public interface CommentRepository {
+public interface CommentInformationDTO {
+
+    /* Static Constructors */
 
     @NotNull
-    Jmgur getApi();
+    static CommentInformationDTO create() {
+        return EntityBuilder.createCommentInformationDTO();
+    }
 
-    /* --- Core --- */
+    /* Getters & Setters */
 
     @NotNull
-    RestAction<Comment> getComment(long id);
+    CommentInformationDTO setPostHash(@NotNull String hash);
 
     @NotNull
-    RestAction<Long> postComment(@NotNull CommentInformationDTO dto);
+    CommentInformationDTO setContent(@NotNull String content);
+
+    @NotNull
+    CommentInformationDTO setParentId(long id);
 }
