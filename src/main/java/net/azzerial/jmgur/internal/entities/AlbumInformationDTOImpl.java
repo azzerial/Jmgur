@@ -17,7 +17,7 @@
 package net.azzerial.jmgur.internal.entities;
 
 import lombok.Getter;
-import net.azzerial.jmgur.api.entities.dto.AlbumCreationDTO;
+import net.azzerial.jmgur.api.entities.dto.AlbumInformationDTO;
 import net.azzerial.jmgur.api.entities.subentities.AlbumPrivacy;
 import net.azzerial.jmgur.internal.utils.Check;
 import org.jetbrains.annotations.NotNull;
@@ -26,14 +26,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 @Getter
-public final class AlbumCreationDTOImpl implements AlbumCreationDTO {
+public final class AlbumInformationDTOImpl implements AlbumInformationDTO {
 
     private final Set<String> images;
     private final Map<String, String> map;
 
     /* Constructors */
 
-    AlbumCreationDTOImpl() {
+    AlbumInformationDTOImpl() {
         this.images = new LinkedHashSet<>();
         this.map = new HashMap<>();
     }
@@ -42,7 +42,7 @@ public final class AlbumCreationDTOImpl implements AlbumCreationDTO {
 
     @NotNull
     @Override
-    public AlbumCreationDTO addImage(@NotNull String hash) {
+    public AlbumInformationDTO addImage(@NotNull String hash) {
         Check.notBlank(hash, "hash");
         this.images.add(hash);
         return this;
@@ -50,7 +50,7 @@ public final class AlbumCreationDTOImpl implements AlbumCreationDTO {
 
     @NotNull
     @Override
-    public AlbumCreationDTO addImages(@NotNull List<String> hashes) {
+    public AlbumInformationDTO addImages(@NotNull List<String> hashes) {
         Check.noneBlank(hashes, "hashes");
         this.images.addAll(hashes);
         return this;
@@ -58,21 +58,21 @@ public final class AlbumCreationDTOImpl implements AlbumCreationDTO {
 
     @NotNull
     @Override
-    public AlbumCreationDTO setTitle(@Nullable String title) {
+    public AlbumInformationDTO setTitle(@Nullable String title) {
         this.map.put("title", title == null ? "" : title);
         return this;
     }
 
     @NotNull
     @Override
-    public AlbumCreationDTO setDescription(@Nullable String description) {
+    public AlbumInformationDTO setDescription(@Nullable String description) {
         this.map.put("description", description == null ? "" : description);
         return this;
     }
 
     @NotNull
     @Override
-    public AlbumCreationDTO setPrivacy(@NotNull AlbumPrivacy privacy) {
+    public AlbumInformationDTO setPrivacy(@NotNull AlbumPrivacy privacy) {
         Check.notNull(privacy, "privacy");
         Check.check(privacy != AlbumPrivacy.UNKNOWN, "privacy must not be UNKNOWN");
         this.map.put("privacy", privacy.getKey());
@@ -81,7 +81,7 @@ public final class AlbumCreationDTOImpl implements AlbumCreationDTO {
 
     @NotNull
     @Override
-    public AlbumCreationDTO setCover(@NotNull String hash) {
+    public AlbumInformationDTO setCover(@NotNull String hash) {
         Check.notNull(hash, "hash");
         this.map.put("cover", hash);
         return this;
@@ -90,6 +90,6 @@ public final class AlbumCreationDTOImpl implements AlbumCreationDTO {
     /* Methods */
 
     public boolean isEmpty() {
-        return map.isEmpty() || images.isEmpty();
+        return map.isEmpty() && images.isEmpty();
     }
 }

@@ -23,32 +23,32 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public interface AlbumCreationDTO {
+public interface AlbumInformationDTO {
 
     /* Static Constructors */
 
     @NotNull
-    static AlbumCreationDTO create() {
-        return EntityBuilder.createAlbumCreationDTO();
+    static AlbumInformationDTO create() {
+        return EntityBuilder.createAlbumInformationDTO();
     }
 
     /* Getters & Setters */
 
     @NotNull
-    AlbumCreationDTO addImage(@NotNull String hash);
+    AlbumInformationDTO addImage(@NotNull String hash);
 
     @NotNull
-    AlbumCreationDTO addImages(@NotNull List<String> hashes);
+    AlbumInformationDTO addImages(@NotNull List<String> hashes);
 
     @NotNull
-    AlbumCreationDTO setTitle(@Nullable String title);
+    AlbumInformationDTO setTitle(@Nullable String title);
 
     @NotNull
-    AlbumCreationDTO setDescription(@Nullable String description);
+    AlbumInformationDTO setDescription(@Nullable String description);
 
     @NotNull
-    AlbumCreationDTO setPrivacy(@NotNull AlbumPrivacy privacy);
+    AlbumInformationDTO setPrivacy(@NotNull AlbumPrivacy privacy);
 
     @NotNull
-    AlbumCreationDTO setCover(@NotNull String hash);
+    AlbumInformationDTO setCover(@NotNull String hash);
 }

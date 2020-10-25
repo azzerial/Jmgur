@@ -20,11 +20,11 @@ import net.azzerial.jmgur.api.AlbumRepository;
 import net.azzerial.jmgur.api.Jmgur;
 import net.azzerial.jmgur.api.entities.Album;
 import net.azzerial.jmgur.api.entities.Image;
-import net.azzerial.jmgur.api.entities.dto.AlbumCreationDTO;
+import net.azzerial.jmgur.api.entities.dto.AlbumInformationDTO;
 import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import net.azzerial.jmgur.api.utils.data.DataArray;
 import net.azzerial.jmgur.api.utils.data.DataObject;
-import net.azzerial.jmgur.internal.entities.AlbumCreationDTOImpl;
+import net.azzerial.jmgur.internal.entities.AlbumInformationDTOImpl;
 import net.azzerial.jmgur.internal.entities.EntityBuilder;
 import net.azzerial.jmgur.internal.requests.Route;
 import net.azzerial.jmgur.internal.requests.restaction.RestActionImpl;
@@ -109,9 +109,9 @@ public class AlbumRepositoryImpl implements AlbumRepository {
 
     @NotNull
     @Override
-    public RestAction<String> createAlbum(@NotNull AlbumCreationDTO dto) {
+    public RestAction<String> createAlbum(@NotNull AlbumInformationDTO dto) {
         Check.notNull(dto, "dto");
-        final AlbumCreationDTOImpl impl = (AlbumCreationDTOImpl) dto;
+        final AlbumInformationDTOImpl impl = (AlbumInformationDTOImpl) dto;
         final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
 
         if (!impl.getImages().isEmpty())
@@ -125,6 +125,29 @@ public class AlbumRepositoryImpl implements AlbumRepository {
             (req, res) -> {
                 final DataObject obj = res.getObject().getObject("data");
                 return obj.getString("id", null);
+            }
+        );
+    }
+
+    @NotNull
+    @Override
+    public RestAction<Boolean> updateAlbum(@NotNull String hash, @NotNull AlbumInformationDTO dto) {
+        Check.notBlank(hash, "hash");
+        Check.notNull(dto, "dto");
+        final AlbumInformationDTOImpl impl = (AlbumInformationDTOImpl) dto;
+        final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+        if (!impl.getImages().isEmpty())
+            body.addFormDataPart("ids", String.join(",", impl.getImages()));
+        impl.getMap().forEach(body::addFormDataPart);
+
+        return new RestActionImpl<>(
+            api,
+            Route.AlbumEndpoints.POST_ALBUM_UPDATE.compile(hash),
+            impl.isEmpty() ? null : body.build(),
+            (req, res) -> {
+                final DataObject obj = res.getObject();
+                return obj.getBoolean("data");
             }
         );
     }
