@@ -151,4 +151,18 @@ public class AlbumRepositoryImpl implements AlbumRepository {
             }
         );
     }
+
+    @NotNull
+    @Override
+    public RestAction<Boolean> deleteAlbum(@NotNull String hash) {
+        Check.notBlank(hash, "hash");
+        return new RestActionImpl<>(
+            api,
+            Route.AlbumEndpoints.DELETE_ALBUM.compile(hash),
+            (req, res) -> {
+                final DataObject obj = res.getObject();
+                return obj.getBoolean("data");
+            }
+        );
+    }
 }

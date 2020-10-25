@@ -45,4 +45,7 @@ public interface AlbumRepository {
 
     @NotNull
     RestAction<Boolean> updateAlbum(@NotNull String hash, @NotNull AlbumInformationDTO dto);
+
+    @NotNull
+    RestAction<Boolean> deleteAlbum(@NotNull String hash);
 }
