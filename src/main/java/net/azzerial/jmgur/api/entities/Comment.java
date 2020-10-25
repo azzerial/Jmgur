@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 public interface Comment extends Serializable {
 
@@ -77,4 +78,7 @@ public interface Comment extends Serializable {
 
     @Nullable
     Vote getVote();
+
+    @NotNull
+    List<Comment> getReplies();
 }

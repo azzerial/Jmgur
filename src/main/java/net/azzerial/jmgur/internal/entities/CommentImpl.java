@@ -24,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 import static net.azzerial.jmgur.internal.utils.Helper.print;
 
@@ -46,6 +47,7 @@ public final class CommentImpl implements Comment {
     private long parentId;
     private boolean deleted;
     private Vote vote;
+    private List<Comment> children;
 
     /* Constructors */
 
@@ -137,6 +139,12 @@ public final class CommentImpl implements Comment {
         return vote;
     }
 
+    @NotNull
+    @Override
+    public List<Comment> getReplies() {
+        return children;
+    }
+
     /* Methods */
 
     @Override
@@ -156,6 +164,7 @@ public final class CommentImpl implements Comment {
             ", parentId=" + parentId +
             ", deleted=" + deleted +
             ", vote=" + vote +
+            ", replies=" + children +
             '}';
     }
 }

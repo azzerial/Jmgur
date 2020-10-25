@@ -179,6 +179,15 @@ public final class EntityBuilder {
     public Comment createComment(@NotNull DataObject obj) {
         final CommentImpl comment = new CommentImpl(api);
 
+        List<Comment> comments = new ArrayList<>();
+        if (obj.hasKey("children")) {
+            DataArray commentsArr = obj.getArray("children");
+            for (int i = 0; i < commentsArr.length(); i += 1) {
+                DataObject commentObj = commentsArr.getObject(i);
+                comments.add(createComment(commentObj));
+            }
+        }
+
         comment.setId(obj.getUnsignedLong("id", 0L));
         comment.setImageId(obj.getString("image_id", null));
         comment.setComment(obj.getString("comment", null));
@@ -193,6 +202,7 @@ public final class EntityBuilder {
         comment.setParentId(obj.getUnsignedLong("parent_id", 0L));
         comment.setDeleted(obj.getBoolean("deleted", false));
         comment.setVote(Vote.fromKey(obj.getString("vote", null)));
+        comment.setChildren(comments);
 
         return comment;
     }
