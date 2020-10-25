@@ -18,9 +18,11 @@ package net.azzerial.jmgur.api;
 
 import net.azzerial.jmgur.api.entities.Comment;
 import net.azzerial.jmgur.api.entities.dto.CommentInformationDTO;
+import net.azzerial.jmgur.api.entities.subentities.ReportReason;
 import net.azzerial.jmgur.api.entities.subentities.Vote;
 import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface CommentRepository {
 
@@ -55,5 +57,13 @@ public interface CommentRepository {
     RestAction<Long> replyToComment(@NotNull CommentInformationDTO dto);
 
     @NotNull
-    RestAction<Boolean> updateVote(long id, @NotNull Vote vote);
+    RestAction<Boolean> updateCommentVote(long id, @NotNull Vote vote);
+
+    @NotNull
+    default RestAction<Boolean> reportComment(long id) {
+        return reportComment(id, null);
+    }
+
+    @NotNull
+    RestAction<Boolean> reportComment(long id, @Nullable ReportReason reason);
 }

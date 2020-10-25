@@ -120,6 +120,7 @@ public final class Route {
         public static final Route GET_COMMENT_REPLIES = new Route(GET, CLIENT_ID, "3/comment/{comment_id}/replies");
         public static final Route POST_COMMENT_REPLY = new Route(POST, BEARER, "3/comment/{comment_id}");
         public static final Route POST_COMMENT_VOTE = new Route(POST, BEARER, "3/comment/{comment_id}/vote/{vote}");
+        public static final Route POST_COMMENT_REPORT = new Route(POST, BEARER, "3/comment/{comment_id}/report");
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

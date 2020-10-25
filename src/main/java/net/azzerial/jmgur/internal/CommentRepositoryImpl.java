@@ -20,6 +20,7 @@ import net.azzerial.jmgur.api.CommentRepository;
 import net.azzerial.jmgur.api.Jmgur;
 import net.azzerial.jmgur.api.entities.Comment;
 import net.azzerial.jmgur.api.entities.dto.CommentInformationDTO;
+import net.azzerial.jmgur.api.entities.subentities.ReportReason;
 import net.azzerial.jmgur.api.entities.subentities.Vote;
 import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import net.azzerial.jmgur.api.utils.data.DataObject;
@@ -30,6 +31,7 @@ import net.azzerial.jmgur.internal.requests.restaction.RestActionImpl;
 import net.azzerial.jmgur.internal.utils.Check;
 import okhttp3.MultipartBody;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class CommentRepositoryImpl implements CommentRepository {
 
@@ -150,13 +152,34 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @NotNull
     @Override
-    public RestAction<Boolean> updateVote(long id, @NotNull Vote vote) {
+    public RestAction<Boolean> updateCommentVote(long id, @NotNull Vote vote) {
         Check.positive(id, "id");
         Check.notNull(vote, "vote");
         Check.check(vote != Vote.UNKNOWN, "vote must not be UNKNOWN");
         return new RestActionImpl<>(
             api,
             Route.CommentEndpoints.POST_COMMENT_VOTE.compile(Long.toUnsignedString(id), vote.getKey()),
+            (req, res) -> {
+                final DataObject obj = res.getObject();
+                return obj.getBoolean("data");
+            }
+        );
+    }
+
+    @NotNull
+    @Override
+    public RestAction<Boolean> reportComment(long id, @Nullable ReportReason reason) {
+        Check.positive(id, "id");
+        Check.check(reason != ReportReason.UNKNOWN, "reason must not be UNKNOWN");
+        final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+        if (reason != null)
+            body.addFormDataPart("reason", Integer.toUnsignedString(reason.getValue()));
+
+        return new RestActionImpl<>(
+            api,
+            Route.CommentEndpoints.POST_COMMENT_REPORT.compile(Long.toUnsignedString(id)),
+            reason == null ? null : body.build(),
             (req, res) -> {
                 final DataObject obj = res.getObject();
                 return obj.getBoolean("data");
