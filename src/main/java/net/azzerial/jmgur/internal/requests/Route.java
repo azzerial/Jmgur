@@ -117,6 +117,7 @@ public final class Route {
         public static final Route GET_COMMENT = new Route(GET, CLIENT_ID, "3/comment/{comment_id}");
         public static final Route POST_COMMENT_CREATION = new Route(POST, BEARER, "3/comment");
         public static final Route DELETE_COMMENT = new Route(DELETE, BEARER, "3/comment/{comment_id}");
+        public static final Route GET_COMMENT_REPLIES = new Route(GET, CLIENT_ID, "3/comment/{comment_id}/replies");
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

@@ -103,4 +103,19 @@ public class CommentRepositoryImpl implements CommentRepository {
             }
         );
     }
+
+    @NotNull
+    @Override
+    public RestAction<Comment> getCommentWithReplies(long id) {
+        Check.positive(id, "id");
+        return new RestActionImpl<>(
+            api,
+            Route.CommentEndpoints.GET_COMMENT_REPLIES.compile(Long.toUnsignedString(id)),
+            (req, res) -> {
+                final EntityBuilder builder = api.getEntityBuilder();
+                final DataObject obj = res.getObject().getObject("data");
+                return builder.createComment(obj);
+            }
+        );
+    }
 }

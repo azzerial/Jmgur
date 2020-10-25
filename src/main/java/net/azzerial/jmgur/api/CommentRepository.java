@@ -41,4 +41,7 @@ public interface CommentRepository {
 
     @NotNull
     RestAction<Boolean> deleteComment(long id);
+
+    @NotNull
+    RestAction<Comment> getCommentWithReplies(long id);
 }
