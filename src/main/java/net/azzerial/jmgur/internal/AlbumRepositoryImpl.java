@@ -20,13 +20,16 @@ import net.azzerial.jmgur.api.AlbumRepository;
 import net.azzerial.jmgur.api.Jmgur;
 import net.azzerial.jmgur.api.entities.Album;
 import net.azzerial.jmgur.api.entities.Image;
+import net.azzerial.jmgur.api.entities.dto.AlbumCreationDTO;
 import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import net.azzerial.jmgur.api.utils.data.DataArray;
 import net.azzerial.jmgur.api.utils.data.DataObject;
+import net.azzerial.jmgur.internal.entities.AlbumCreationDTOImpl;
 import net.azzerial.jmgur.internal.entities.EntityBuilder;
 import net.azzerial.jmgur.internal.requests.Route;
 import net.azzerial.jmgur.internal.requests.restaction.RestActionImpl;
 import net.azzerial.jmgur.internal.utils.Check;
+import okhttp3.MultipartBody;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -100,6 +103,28 @@ public class AlbumRepositoryImpl implements AlbumRepository {
                 final EntityBuilder builder = api.getEntityBuilder();
                 final DataObject obj = res.getObject().getObject("data");
                 return builder.createImage(obj);
+            }
+        );
+    }
+
+    @NotNull
+    @Override
+    public RestAction<String> createAlbum(@NotNull AlbumCreationDTO dto) {
+        Check.notNull(dto, "dto");
+        final AlbumCreationDTOImpl impl = (AlbumCreationDTOImpl) dto;
+        final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+        if (!impl.getImages().isEmpty())
+            body.addFormDataPart("ids", String.join(",", impl.getImages()));
+        impl.getMap().forEach(body::addFormDataPart);
+
+        return new RestActionImpl<>(
+            api,
+            Route.AlbumEndpoints.POST_ALBUM_CREATION.compile(),
+            impl.isEmpty() ? null : body.build(),
+            (req, res) -> {
+                final DataObject obj = res.getObject().getObject("data");
+                return obj.getString("id", null);
             }
         );
     }

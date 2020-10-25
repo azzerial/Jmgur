@@ -18,6 +18,7 @@ package net.azzerial.jmgur.api;
 
 import net.azzerial.jmgur.api.entities.Album;
 import net.azzerial.jmgur.api.entities.Image;
+import net.azzerial.jmgur.api.entities.dto.AlbumCreationDTO;
 import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,4 +39,7 @@ public interface AlbumRepository {
 
     @NotNull
     RestAction<Image> getAlbumImage(@NotNull String albumHash, @NotNull String imageHash);
+
+    @NotNull
+    RestAction<String> createAlbum(@NotNull AlbumCreationDTO dto);
 }
