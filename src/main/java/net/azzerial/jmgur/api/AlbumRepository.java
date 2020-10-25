@@ -17,8 +17,11 @@
 package net.azzerial.jmgur.api;
 
 import net.azzerial.jmgur.api.entities.Album;
+import net.azzerial.jmgur.api.entities.Image;
 import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public interface AlbumRepository {
 
@@ -29,4 +32,7 @@ public interface AlbumRepository {
 
     @NotNull
     RestAction<Album> getAlbum(@NotNull String hash);
+
+    @NotNull
+    RestAction<List<Image>> getAlbumImages(@NotNull String hash);
 }

@@ -98,6 +98,7 @@ public final class Route {
         /* --- Core --- */
 
         public static final Route GET_ALBUM = new Route(GET, CLIENT_ID, "3/album/{album_hash}");
+        public static final Route GET_ALBUM_IMAGES = new Route(GET, CLIENT_ID, "3/album/{album_hash}/images");
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
