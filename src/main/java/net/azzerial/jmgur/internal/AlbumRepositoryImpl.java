@@ -221,4 +221,25 @@ public class AlbumRepositoryImpl implements AlbumRepository {
             }
         );
     }
+
+    @NotNull
+    @Override
+    public RestAction<Boolean> removeAlbumImages(@NotNull String albumHash, @NotNull List<String> imagesHash) {
+        Check.notBlank(albumHash, "albumHash");
+        Check.noneBlank(imagesHash, "imagesHash");
+        final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+        if (!imagesHash.isEmpty())
+            body.addFormDataPart("ids", String.join(",", imagesHash));
+
+        return new RestActionImpl<>(
+            api,
+            Route.AlbumEndpoints.POST_ALBUM_IMAGES_REMOVE.compile(albumHash),
+            imagesHash.isEmpty() ? null : body.build(),
+            (req, res) -> {
+                final DataObject obj = res.getObject();
+                return obj.getBoolean("data");
+            }
+        );
+    }
 }

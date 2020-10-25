@@ -57,4 +57,7 @@ public interface AlbumRepository {
 
     @NotNull
     RestAction<Boolean> addAlbumImages(@NotNull String albumHash, @NotNull List<String> imagesHash);
+
+    @NotNull
+    RestAction<Boolean> removeAlbumImages(@NotNull String albumHash, @NotNull List<String> imagesHash);
 }
