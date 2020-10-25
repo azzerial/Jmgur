@@ -93,6 +93,14 @@ public final class Route {
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static final class AlbumEndpoints {
+
+        /* --- Core --- */
+
+        public static final Route GET_ALBUM = new Route(GET, CLIENT_ID, "3/album/{album_hash}");
+    }
+
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class GalleryEndpoints {
 
         /* --- Resources --- */

@@ -16,10 +16,17 @@
 
 package net.azzerial.jmgur.api;
 
+import net.azzerial.jmgur.api.entities.Album;
+import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import org.jetbrains.annotations.NotNull;
 
 public interface AlbumRepository {
 
     @NotNull
     Jmgur getApi();
+
+    /* --- Core --- */
+
+    @NotNull
+    RestAction<Album> getAlbum(@NotNull String hash);
 }

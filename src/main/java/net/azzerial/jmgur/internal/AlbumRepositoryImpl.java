@@ -18,6 +18,13 @@ package net.azzerial.jmgur.internal;
 
 import net.azzerial.jmgur.api.AlbumRepository;
 import net.azzerial.jmgur.api.Jmgur;
+import net.azzerial.jmgur.api.entities.Album;
+import net.azzerial.jmgur.api.requests.restaction.RestAction;
+import net.azzerial.jmgur.api.utils.data.DataObject;
+import net.azzerial.jmgur.internal.entities.EntityBuilder;
+import net.azzerial.jmgur.internal.requests.Route;
+import net.azzerial.jmgur.internal.requests.restaction.RestActionImpl;
+import net.azzerial.jmgur.internal.utils.Check;
 import org.jetbrains.annotations.NotNull;
 
 public class AlbumRepositoryImpl implements AlbumRepository {
@@ -36,5 +43,22 @@ public class AlbumRepositoryImpl implements AlbumRepository {
     @Override
     public Jmgur getApi() {
         return api;
+    }
+
+    /* --- Core --- */
+
+    @NotNull
+    @Override
+    public RestAction<Album> getAlbum(@NotNull String hash) {
+        Check.notBlank(hash, "hash");
+        return new RestActionImpl<>(
+            api,
+            Route.AlbumEndpoints.GET_ALBUM.compile(hash),
+            (req, res) -> {
+                final EntityBuilder builder = api.getEntityBuilder();
+                final DataObject obj = res.getObject().getObject("data");
+                return builder.createAlbum(obj);
+            }
+        );
     }
 }
