@@ -24,10 +24,7 @@ package net.azzerial.jmgur.api;
 import net.azzerial.jmgur.api.utils.config.AuthenticationConfig;
 import net.azzerial.jmgur.api.utils.config.SessionConfig;
 import net.azzerial.jmgur.api.utils.config.ThreadingConfig;
-import net.azzerial.jmgur.internal.AccountRepositoryImpl;
-import net.azzerial.jmgur.internal.AlbumRepositoryImpl;
-import net.azzerial.jmgur.internal.GalleryRepositoryImpl;
-import net.azzerial.jmgur.internal.ImageRepositoryImpl;
+import net.azzerial.jmgur.internal.*;
 import net.azzerial.jmgur.internal.entities.EntityBuilder;
 import net.azzerial.jmgur.internal.requests.Requester;
 import org.jetbrains.annotations.NotNull;
@@ -42,6 +39,7 @@ public final class Jmgur {
 
     public final AccountRepository ACCOUNT;
     public final AlbumRepository ALBUM;
+    public final CommentRepository COMMENT;
     public final GalleryRepository GALLERY;
     public final ImageRepository IMAGE;
 
@@ -57,6 +55,7 @@ public final class Jmgur {
         // api repositories
         this.ACCOUNT = new AccountRepositoryImpl(this);
         this.ALBUM = new AlbumRepositoryImpl(this);
+        this.COMMENT = new CommentRepositoryImpl(this);
         this.GALLERY = new GalleryRepositoryImpl(this);
         this.IMAGE = new ImageRepositoryImpl(this);
     }
