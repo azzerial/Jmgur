@@ -179,4 +179,25 @@ public class AlbumRepositoryImpl implements AlbumRepository {
             }
         );
     }
+
+    @NotNull
+    @Override
+    public RestAction<Boolean> setAlbumImages(@NotNull String hash, @NotNull List<String> hashes) {
+        Check.notBlank(hash, "hash");
+        Check.noneBlank(hashes, "hashes");
+        final MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+        if (!hashes.isEmpty())
+            body.addFormDataPart("ids", String.join(",", hashes));
+
+        return new RestActionImpl<>(
+            api,
+            Route.AlbumEndpoints.POST_ALBUM_IMAGES.compile(hash),
+            hashes.isEmpty() ? null : body.build(),
+            (req, res) -> {
+                final DataObject obj = res.getObject();
+                return obj.getBoolean("data");
+            }
+        );
+    }
 }
