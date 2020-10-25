@@ -110,6 +110,14 @@ public final class Route {
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static final class CommentEndpoints {
+
+        /* --- Core --- */
+
+        public static final Route GET_COMMENT = new Route(GET, CLIENT_ID, "3/comment/{comment_id}");
+    }
+
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class GalleryEndpoints {
 
         /* --- Resources --- */

@@ -16,10 +16,17 @@
 
 package net.azzerial.jmgur.api;
 
+import net.azzerial.jmgur.api.entities.Comment;
+import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import org.jetbrains.annotations.NotNull;
 
 public interface CommentRepository {
 
     @NotNull
     Jmgur getApi();
+
+    /* --- Core --- */
+
+    @NotNull
+    RestAction<Comment> getComment(long id);
 }
