@@ -48,4 +48,7 @@ public interface AlbumRepository {
 
     @NotNull
     RestAction<Boolean> deleteAlbum(@NotNull String hash);
+
+    @NotNull
+    RestAction<Boolean> favoriteAlbum(@NotNull String hash);
 }

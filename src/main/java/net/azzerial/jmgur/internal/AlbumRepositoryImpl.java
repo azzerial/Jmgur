@@ -165,4 +165,18 @@ public class AlbumRepositoryImpl implements AlbumRepository {
             }
         );
     }
+
+    @NotNull
+    @Override
+    public RestAction<Boolean> favoriteAlbum(@NotNull String hash) {
+        Check.notBlank(hash, "hash");
+        return new RestActionImpl<>(
+            api,
+            Route.AlbumEndpoints.POST_ALBUM_FAVORITE.compile(hash),
+            (req, res) -> {
+                final DataObject obj = res.getObject();
+                return obj.getString("data").equals("favorited");
+            }
+        );
+    }
 }

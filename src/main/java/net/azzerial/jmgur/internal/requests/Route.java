@@ -103,6 +103,7 @@ public final class Route {
         public static final Route POST_ALBUM_CREATION = new Route(POST, BEARER, "3/album");
         public static final Route POST_ALBUM_UPDATE = new Route(POST, BEARER, "3/album/{album_hash}");
         public static final Route DELETE_ALBUM = new Route(DELETE, BEARER, "3/album/{album_hash}");
+        public static final Route POST_ALBUM_FAVORITE = new Route(POST, BEARER, "3/album/{album_hash}/favorite");
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
