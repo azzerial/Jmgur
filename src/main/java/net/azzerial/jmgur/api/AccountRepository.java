@@ -102,7 +102,7 @@ public interface AccountRepository {
     PagedRestAction<List<GalleryElement>> getUserFavorites(@NotNull String name, @NotNull FavoriteSort sort);
 
     @NotNull
-    default PagedRestAction<List<GalleryElement>> getUserSubmissions() {
+    default PagedRestAction<List<GalleryElement>> getSelfSubmissions() {
         return getUserSubmissions("me");
     }
 
