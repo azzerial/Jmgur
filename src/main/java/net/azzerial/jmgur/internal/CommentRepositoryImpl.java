@@ -20,6 +20,7 @@ import net.azzerial.jmgur.api.CommentRepository;
 import net.azzerial.jmgur.api.Jmgur;
 import net.azzerial.jmgur.api.entities.Comment;
 import net.azzerial.jmgur.api.entities.dto.CommentInformationDTO;
+import net.azzerial.jmgur.api.entities.subentities.Vote;
 import net.azzerial.jmgur.api.requests.restaction.RestAction;
 import net.azzerial.jmgur.api.utils.data.DataObject;
 import net.azzerial.jmgur.internal.entities.CommentInformationDTOImpl;
@@ -143,6 +144,22 @@ public class CommentRepositoryImpl implements CommentRepository {
             (req, res) -> {
                 final DataObject obj = res.getObject().getObject("data");
                 return obj.getUnsignedLong("id", 0L);
+            }
+        );
+    }
+
+    @NotNull
+    @Override
+    public RestAction<Boolean> updateVote(long id, @NotNull Vote vote) {
+        Check.positive(id, "id");
+        Check.notNull(vote, "vote");
+        Check.check(vote != Vote.UNKNOWN, "vote must not be UNKNOWN");
+        return new RestActionImpl<>(
+            api,
+            Route.CommentEndpoints.POST_COMMENT_VOTE.compile(Long.toUnsignedString(id), vote.getKey()),
+            (req, res) -> {
+                final DataObject obj = res.getObject();
+                return obj.getBoolean("data");
             }
         );
     }
