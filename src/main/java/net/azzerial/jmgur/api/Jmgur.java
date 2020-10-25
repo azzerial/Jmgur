@@ -25,6 +25,7 @@ import net.azzerial.jmgur.api.utils.config.AuthenticationConfig;
 import net.azzerial.jmgur.api.utils.config.SessionConfig;
 import net.azzerial.jmgur.api.utils.config.ThreadingConfig;
 import net.azzerial.jmgur.internal.AccountRepositoryImpl;
+import net.azzerial.jmgur.internal.AlbumRepositoryImpl;
 import net.azzerial.jmgur.internal.GalleryRepositoryImpl;
 import net.azzerial.jmgur.internal.ImageRepositoryImpl;
 import net.azzerial.jmgur.internal.entities.EntityBuilder;
@@ -40,6 +41,7 @@ public final class Jmgur {
     private final EntityBuilder entityBuilder;
 
     public final AccountRepository ACCOUNT;
+    public final AlbumRepository ALBUM;
     public final GalleryRepository GALLERY;
     public final ImageRepository IMAGE;
 
@@ -54,6 +56,7 @@ public final class Jmgur {
 
         // api repositories
         this.ACCOUNT = new AccountRepositoryImpl(this);
+        this.ALBUM = new AlbumRepositoryImpl(this);
         this.GALLERY = new GalleryRepositoryImpl(this);
         this.IMAGE = new ImageRepositoryImpl(this);
     }
