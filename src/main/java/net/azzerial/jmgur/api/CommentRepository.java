@@ -32,5 +32,10 @@ public interface CommentRepository {
     RestAction<Comment> getComment(long id);
 
     @NotNull
+    default RestAction<Long> postComment(@NotNull String hash, @NotNull String content) {
+        return postComment(CommentInformationDTO.create().setPostHash(hash).setContent(content));
+    }
+
+    @NotNull
     RestAction<Long> postComment(@NotNull CommentInformationDTO dto);
 }
