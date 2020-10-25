@@ -172,8 +172,8 @@ In Jmgur, these repositories are directly available through the Jmgur object as 
 Jmgur api = ...;
 
 api.ACCOUNT // Account repository
-api.COMMENT // Comment repository        NOT AVAILABLE YET
-api.ALBUM   // Album repository          NOT AVAILABLE YET
+api.COMMENT // Comment repository
+api.ALBUM   // Album repository
 api.GALLERY // Gallery repository
 api.IMAGE   // Image repository
 ```
