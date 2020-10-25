@@ -89,4 +89,18 @@ public class CommentRepositoryImpl implements CommentRepository {
             }
         );
     }
+
+    @NotNull
+    @Override
+    public RestAction<Boolean> deleteComment(long id) {
+        Check.positive(id, "id");
+        return new RestActionImpl<>(
+            api,
+            Route.CommentEndpoints.DELETE_COMMENT.compile(Long.toUnsignedString(id)),
+            (req, res) -> {
+                final DataObject obj = res.getObject();
+                return obj.getBoolean("data");
+            }
+        );
+    }
 }

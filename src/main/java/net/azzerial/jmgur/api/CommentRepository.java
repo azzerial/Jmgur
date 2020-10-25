@@ -38,4 +38,7 @@ public interface CommentRepository {
 
     @NotNull
     RestAction<Long> postComment(@NotNull CommentInformationDTO dto);
+
+    @NotNull
+    RestAction<Boolean> deleteComment(long id);
 }
