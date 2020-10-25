@@ -35,4 +35,7 @@ public interface AlbumRepository {
 
     @NotNull
     RestAction<List<Image>> getAlbumImages(@NotNull String hash);
+
+    @NotNull
+    RestAction<Image> getAlbumImage(@NotNull String albumHash, @NotNull String imageHash);
 }

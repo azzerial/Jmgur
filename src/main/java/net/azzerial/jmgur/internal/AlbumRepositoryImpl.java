@@ -87,4 +87,20 @@ public class AlbumRepositoryImpl implements AlbumRepository {
             }
         );
     }
+
+    @NotNull
+    @Override
+    public RestAction<Image> getAlbumImage(@NotNull String albumHash, @NotNull String imageHash) {
+        Check.notBlank(albumHash, "albumHash");
+        Check.notBlank(imageHash, "imageHash");
+        return new RestActionImpl<>(
+            api,
+            Route.AlbumEndpoints.GET_ALBUM_IMAGE.compile(albumHash, imageHash),
+            (req, res) -> {
+                final EntityBuilder builder = api.getEntityBuilder();
+                final DataObject obj = res.getObject().getObject("data");
+                return builder.createImage(obj);
+            }
+        );
+    }
 }
